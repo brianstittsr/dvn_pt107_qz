@@ -1,26 +1,41 @@
 # Part 107 Flight School
 
-A dependency-free JavaScript study app for FAA Part 107 preparation.
+A Next.js study app for the FAA Part 107 Remote Pilot certification.
 
 ## Features
-- Dashboard with readiness, accuracy, streak, weakest area, and official reference links
-- Quiz Lab with mixed or category-focused quizzes and answer explanations
-- Vocabulary deck with flip cards, shuffle, filters, and mastered-term tracking
-- Category progress across regulations, airspace, weather, loading/performance, operations, airport operations, radio, human factors, and maintenance
-- Dark mode and localStorage persistence
-- Responsive layout for desktop and mobile
 
-## Run locally
+- Realistic quiz questions across all FAA Part 107 knowledge areas
+- Vocabulary flashcards with category filters and shuffle
+- Dashboard with accuracy, streak, weakest area, and readiness score
+- Progress tracking by category
+- Optional account creation to sync progress across devices
+- Pro subscription via Stripe for cloud sync, full quiz history, and analytics
 
-From this folder, start any static file server:
+## Tech stack
 
-```bash
-python -m http.server 4173
-```
+- **Framework:** Next.js 16 App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI components:** Custom components based on shadcn/ui patterns
+- **Auth & database:** Firebase Authentication + Firestore
+- **Payments:** Stripe Checkout + webhooks
+- **State:** Zustand + localStorage
 
-Then open `http://localhost:4173`.
+## Getting started
 
-Progress is stored in the browser's localStorage and never sent to a server.
+1. Copy `env.example` to `.env.local` and fill in your Firebase and Stripe credentials.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the dev server:
+   ```bash
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000).
 
 ## Important
-This is a study aid, not a substitute for the current FAA regulations, Remote Pilot Study Guide, Airman Certification Standards, or official FAA guidance. Review the official references linked in the app before testing or operating.
+
+This is a study aid, not a substitute for the current FAA regulations, Remote Pilot Study Guide,
+Airman Certification Standards, or official FAA guidance. Review the official references before
+operating.
