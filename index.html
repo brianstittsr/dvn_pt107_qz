@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08111f" />
+  <title>Part 107 Flight School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <div><strong>Part 107</strong><span>Flight School</span></div>
+      </div>
+      <nav class="nav" aria-label="Primary navigation">
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="quiz"><span>◉</span> Quiz Lab</button>
+        <button class="nav-item" data-view="vocab"><span>Aa</span> Vocabulary</button>
+        <button class="nav-item" data-view="categories"><span>◎</span> Categories</button>
+        <button class="nav-item" data-view="progress"><span>↗</span> Progress</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="pilot-card"><span class="eyebrow">CERTIFICATION PATH</span><strong>Remote Pilot</strong><span>Small UAS · UAG</span><div class="mini-line"><span id="sidebarProgress">0%</span><span>ready</span></div><div class="progress-track"><div id="sidebarProgressBar" class="progress-fill"></div></div></div>
+        <button id="resetProgress" class="text-button">Reset study data</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><span class="eyebrow">FAA REMOTE PILOT PREP</span><h1 id="pageTitle">Good to see you, pilot.</h1></div>
+        <div class="top-actions"><button class="icon-button" id="themeToggle" title="Toggle theme">◐</button><button class="avatar">BS</button></div>
+      </header>
+
+      <section id="dashboardView" class="view active">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div><span class="eyebrow accent-text">YOUR NEXT FLIGHT</span><h2>Build confidence<br><em>one question at a time.</em></h2><p>Practice regulations, airspace, weather, operations, and the vocabulary that makes the test click.</p><button class="primary-button" data-view="quiz">Start a quiz <span>→</span></button></div>
+            <div class="hero-orbit"><div class="orbit-ring ring-one"></div><div class="orbit-ring ring-two"></div><div class="drone-icon">✦</div><span class="orbit-dot dot-one"></span><span class="orbit-dot dot-two"></span></div>
+          </div>
+          <div class="streak-card"><div class="card-heading"><span class="eyebrow">STUDY STREAK</span><span class="status-dot"></span></div><div class="streak-number" id="streakNumber">0 <small>days</small></div><p>Keep a daily rhythm to retain more.</p><div class="week-dots" id="weekDots"></div><div class="week-labels"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
+        </div>
+        <div class="stats-grid"><div class="stat-card"><span class="eyebrow">QUESTIONS ANSWERED</span><strong id="questionsAnswered">0</strong><span class="stat-note">Keep going</span></div><div class="stat-card"><span class="eyebrow">ACCURACY</span><strong id="accuracy">—</strong><span class="stat-note">Across all quizzes</span></div><div class="stat-card"><span class="eyebrow">TERMS MASTERED</span><strong id="termsMastered">0</strong><span class="stat-note">80%+ recall</span></div><div class="stat-card"><span class="eyebrow">WEAKEST AREA</span><strong class="small-stat" id="weakestArea">Not enough data</strong><span class="stat-note">We’ll surface it here</span></div></div>
+        <div class="section-heading"><div><span class="eyebrow">STUDY PLAN</span><h3>Pick up where you left off</h3></div><button class="ghost-button" data-view="categories">View all areas →</button></div>
+        <div id="categorySnapshot" class="category-grid"></div>
+        <div class="section-heading resource-heading"><div><span class="eyebrow">OFFICIAL REFERENCES</span><h3>Study smarter with FAA materials</h3></div></div>
+        <div class="resource-row"><a href="https://www.faa.gov/uas/commercial_operators/become_a_drone_pilot" target="_blank" class="resource-card"><span>FAA</span><strong>Become a Certificated Remote Pilot</strong><small>Eligibility, test process, and requirements ↗</small></a><a href="https://www.faa.gov/sites/faa.gov/files/regulations_policies/handbooks_manuals/aviation/remote_pilot_study_guide.pdf" target="_blank" class="resource-card"><span>FAA-G-8082-22</span><strong>Remote Pilot Study Guide</strong><small>Knowledge areas and core concepts ↗</small></a><a href="https://www.faa.gov/training_testing/testing/acs/uas_acs.pdf" target="_blank" class="resource-card"><span>FAA-S-ACS-10B</span><strong>Airman Certification Standards</strong><small>Exam blueprint and performance standards ↗</small></a></div>
+      </section>
+
+      <section id="quizView" class="view"><div class="view-intro"><span class="eyebrow">QUIZ LAB</span><h2>Test your flight knowledge.</h2><p>Choose a focus area or take a mixed review. Every answer includes a short explanation.</p></div><div class="quiz-layout"><div class="quiz-main" id="quizPanel"></div><aside class="quiz-sidebar"><div class="side-panel"><span class="eyebrow">QUIZ SETTINGS</span><label for="quizCategory">Focus area</label><select id="quizCategory"></select><label for="quizLength">Questions</label><select id="quizLength"><option value="10">10 questions</option><option value="20">20 questions</option><option value="all">All available</option></select><button class="primary-button full" id="newQuiz">New quiz <span>↻</span></button></div><div class="side-panel tip-panel"><span class="eyebrow">TEST TIP</span><p>Read the question twice. Look for words like <strong>best</strong>, <strong>most</strong>, and <strong>except</strong>.</p></div></aside></div></section>
+
+      <section id="vocabView" class="view"><div class="view-intro"><span class="eyebrow">VOCABULARY DECK</span><h2>Learn the language of flight.</h2><p>Flip cards, mark terms as known, and focus on the words you miss.</p></div><div class="vocab-toolbar"><div class="segmented"><button class="segment active" data-vocab-filter="all">All terms</button><button class="segment" data-vocab-filter="unknown">Needs practice</button><button class="segment" data-vocab-filter="known">Mastered</button></div><button class="ghost-button" id="shuffleVocab">Shuffle deck ↻</button></div><div id="vocabGrid" class="vocab-grid"></div></section>
+
+      <section id="categoriesView" class="view"><div class="view-intro"><span class="eyebrow">KNOWLEDGE AREAS</span><h2>Map the whole exam.</h2><p>Use the official FAA knowledge areas as your study map. Target the categories that need the most work.</p></div><div id="allCategories" class="all-categories"></div></section>
+
+      <section id="progressView" class="view"><div class="view-intro"><span class="eyebrow">PROGRESS CENTER</span><h2>Your study data, at a glance.</h2><p>Use your results to decide what to review next.</p></div><div class="progress-overview"><div class="big-progress-card"><span class="eyebrow">OVERALL READINESS</span><div class="readiness-row"><strong id="readinessScore">0%</strong><div class="large-track"><div id="readinessBar" class="progress-fill"></div></div></div><p id="readinessMessage">Answer a few questions to build your baseline.</p></div><div class="big-progress-card"><span class="eyebrow">VOCABULARY RECALL</span><div class="readiness-row"><strong id="vocabScore">0%</strong><div class="large-track"><div id="vocabBar" class="progress-fill"></div></div></div><p>Terms marked mastered or recalled correctly.</p></div></div><div class="section-heading"><div><span class="eyebrow">BY CATEGORY</span><h3>Where to spend your time</h3></div></div><div id="progressCategories" class="progress-list"></div></section>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
