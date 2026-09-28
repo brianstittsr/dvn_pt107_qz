@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -53,8 +54,11 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>{mode === "signin" ? "Sign in" : "Create account"}</CardTitle>
+        <CardHeader className="space-y-1">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-olive/10 text-olive">
+            <Shield className="h-5 w-5" />
+          </div>
+          <CardTitle className="text-center">{mode === "signin" ? "Sign in" : "Create account"}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleEmail} className="space-y-4">
@@ -80,7 +84,11 @@ export default function LoginPage() {
                 placeholder="••••••••"
               />
             </div>
-            <Button type="submit" disabled={submitting} className="w-full bg-emerald-500 text-slate-900 hover:bg-emerald-400">
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-olive text-white hover:bg-olive-light"
+            >
               {mode === "signin" ? "Sign in" : "Create account"}
             </Button>
           </form>
@@ -103,7 +111,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="font-medium text-emerald-600 hover:underline"
+              className="font-medium text-olive hover:underline"
             >
               {mode === "signin" ? "Sign up" : "Sign in"}
             </button>

@@ -54,6 +54,7 @@ export interface UserProfile {
   email: string | null;
   displayName: string | null;
   photoURL: string | null;
+  role: "user" | "admin";
   subscriptionStatus: "inactive" | "active" | "canceled" | "past_due";
   subscriptionExpiry: string | null;
   stripeCustomerId: string | null;

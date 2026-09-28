@@ -26,7 +26,7 @@ export default function DashboardPage() {
     .map((c) => ({
       category: c,
       stat: stats.byCategory[c.id] ?? { answered: 0, correct: 0 },
-      percent: percent((stats.byCategory[c.id]?.correct ?? 0), (stats.byCategory[c.id]?.answered ?? 0)),
+      percent: percent(stats.byCategory[c.id]?.correct ?? 0, stats.byCategory[c.id]?.answered ?? 0),
     }))
     .filter((x) => x.stat.answered > 0)
     .sort((a, b) => a.percent - b.percent);
@@ -41,7 +41,7 @@ export default function DashboardPage() {
       </div>
 
       {profile?.subscriptionStatus === "active" && (
-        <div className="rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
+        <div className="rounded-lg bg-olive/10 px-4 py-2 text-sm text-olive">
           Pro is active. Your progress syncs across devices.
         </div>
       )}
@@ -85,30 +85,28 @@ export default function DashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-emerald-500" />
+              <Brain className="h-5 w-5 text-olive" />
               Weakest area
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-semibold">{weakest}</div>
-            <p className="text-sm text-slate-500">
-              Focus here to raise your overall readiness score.
-            </p>
+            <p className="text-sm text-slate-500">Focus here to raise your overall readiness score.</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-emerald-500" />
+              <TrendingUp className="h-5 w-5 text-olive" />
               Readiness
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-emerald-600">{readiness}%</div>
+            <div className="text-4xl font-bold text-olive">{readiness}%</div>
             <div className="mt-2 h-2 w-full rounded-full bg-slate-100">
               <div
-                className="h-2 rounded-full bg-emerald-500 transition-all"
+                className="h-2 rounded-full bg-olive transition-all"
                 style={{ width: `${readiness}%` }}
               />
             </div>
@@ -120,7 +118,7 @@ export default function DashboardPage() {
         <Link href="/quiz">
           <Card className="h-full transition-shadow hover:shadow-md">
             <CardHeader>
-              <BookOpen className="h-6 w-6 text-emerald-500" />
+              <BookOpen className="h-6 w-6 text-olive" />
               <CardTitle>Quiz Lab</CardTitle>
             </CardHeader>
             <CardContent>
@@ -131,7 +129,7 @@ export default function DashboardPage() {
         <Link href="/vocab">
           <Card className="h-full transition-shadow hover:shadow-md">
             <CardHeader>
-              <Library className="h-6 w-6 text-emerald-500" />
+              <Library className="h-6 w-6 text-olive" />
               <CardTitle>Vocabulary</CardTitle>
             </CardHeader>
             <CardContent>
@@ -142,7 +140,7 @@ export default function DashboardPage() {
         <Link href="/activate">
           <Card className="h-full transition-shadow hover:shadow-md">
             <CardHeader>
-              <Flame className="h-6 w-6 text-emerald-500" />
+              <Flame className="h-6 w-6 text-olive" />
               <CardTitle>Activate Pro</CardTitle>
             </CardHeader>
             <CardContent>
@@ -159,7 +157,7 @@ export default function DashboardPage() {
       {!user && (
         <div className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-600">
           You are using the app as a guest.{" "}
-          <Link href="/login" className="font-medium text-emerald-600 hover:underline">
+          <Link href="/login" className="font-medium text-olive hover:underline">
             Sign in
           </Link>{" "}
           to sync your progress.

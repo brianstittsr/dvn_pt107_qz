@@ -66,7 +66,7 @@ export default function QuizPage() {
       <div className="mx-auto max-w-2xl space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Quiz complete</CardTitle>
+            <CardTitle>Mission complete</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-2xl font-bold">
@@ -74,11 +74,13 @@ export default function QuizPage() {
             </p>
             <p className="text-slate-500">
               {score === currentQuiz.items.length
-                ? "Perfect! You are ready for the next challenge."
-                : "Review the explanations and try again."}
+                ? "Outstanding. You are cleared for the next challenge."
+                : "Review the debrief and run it again."}
             </p>
             <div className="flex gap-3">
-              <Button onClick={() => setCurrentQuiz(null)}>Back to setup</Button>
+              <Button onClick={() => setCurrentQuiz(null)} className="bg-olive text-white hover:bg-olive-light">
+                Back to setup
+              </Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>
                 Dashboard
               </Button>
@@ -104,7 +106,7 @@ export default function QuizPage() {
                 id="category"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="all">Mixed review — all areas</option>
                 {categories.map((c) => (
@@ -120,14 +122,14 @@ export default function QuizPage() {
                 id="length"
                 value={length}
                 onChange={(e) => setLength(e.target.value === "all" ? "all" : Number(e.target.value))}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="10">10 questions</option>
                 <option value="20">20 questions</option>
                 <option value="all">All available</option>
               </select>
             </div>
-            <Button onClick={startQuiz} className="w-full bg-emerald-500 text-slate-900 hover:bg-emerald-400">
+            <Button onClick={startQuiz} className="w-full bg-olive text-white hover:bg-olive-light">
               Launch quiz
             </Button>
           </CardContent>
@@ -168,10 +170,10 @@ export default function QuizPage() {
                   onClick={() => handleAnswer(idx)}
                   className={cn(
                     "flex items-center gap-3 rounded-lg border p-4 text-left transition-colors",
-                    showResult && isCorrect && "border-emerald-500 bg-emerald-50",
+                    showResult && isCorrect && "border-olive bg-olive/10",
                     showResult && selected && !isCorrect && "border-red-400 bg-red-50",
-                    !showResult && "hover:border-emerald-500 hover:bg-slate-50",
-                    !showResult && selected && "border-emerald-500 bg-emerald-50"
+                    !showResult && "hover:border-olive hover:bg-slate-50",
+                    !showResult && selected && "border-olive bg-olive/10"
                   )}
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold">
@@ -185,7 +187,7 @@ export default function QuizPage() {
 
           {currentItem.answered && (
             <div className="rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
-              <strong>Explanation:</strong> {currentQuestion.explanation}
+              <strong>Debrief:</strong> {currentQuestion.explanation}
             </div>
           )}
 
@@ -197,7 +199,7 @@ export default function QuizPage() {
                   index: currentQuiz.index + 1,
                 })
               }
-              className="w-full bg-emerald-500 text-slate-900 hover:bg-emerald-400"
+              className="w-full bg-olive text-white hover:bg-olive-light"
             >
               {currentQuiz.index + 1 === currentQuiz.items.length ? "Finish quiz" : "Next question"}
             </Button>

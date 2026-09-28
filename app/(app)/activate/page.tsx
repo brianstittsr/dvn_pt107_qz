@@ -53,7 +53,7 @@ export default function ActivatePage() {
       <div>
         <h1 className="text-4xl font-bold tracking-tight">Go Pro</h1>
         <p className="mt-3 text-lg text-slate-600">
-          Support the project and unlock powerful study tools.
+          Support the mission and unlock powerful study tools.
         </p>
       </div>
 
@@ -63,18 +63,20 @@ export default function ActivatePage() {
           <p className="text-sm text-slate-500">Subscription · cancel anytime</p>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="text-4xl font-bold">$9<span className="text-lg font-normal text-slate-500">/mo</span></div>
+          <div className="text-4xl font-bold">
+            $9<span className="text-lg font-normal text-slate-500">/mo</span>
+          </div>
           <ul className="space-y-3">
             {features.map((feature) => (
               <li key={feature} className="flex items-start gap-2 text-sm text-slate-700">
-                <Check className="mt-0.5 h-4 w-4 text-emerald-500" />
+                <Check className="mt-0.5 h-4 w-4 text-olive" />
                 {feature}
               </li>
             ))}
           </ul>
 
           {isActive ? (
-            <div className="rounded-lg bg-emerald-50 p-4 text-center text-sm font-medium text-emerald-700">
+            <div className="rounded-lg bg-olive/10 p-4 text-center text-sm font-medium text-olive">
               Your Pro subscription is active.
             </div>
           ) : (
@@ -82,13 +84,13 @@ export default function ActivatePage() {
               <Button
                 onClick={handleCheckout}
                 disabled={loading}
-                className="w-full bg-emerald-500 text-slate-900 hover:bg-emerald-400"
+                className="w-full bg-olive text-white hover:bg-olive-light"
               >
                 {loading ? "Loading…" : "Activate Pro"}
               </Button>
               {!user && (
                 <p className="text-center text-sm text-slate-500">
-                  <Link href="/login" className="text-emerald-600 hover:underline">
+                  <Link href="/login" className="text-olive hover:underline">
                     Sign in
                   </Link>{" "}
                   first to continue.

@@ -28,10 +28,10 @@ export default function ProgressPage() {
             <CardTitle>Overall readiness</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-5xl font-bold text-emerald-600">{readiness}%</div>
+            <div className="text-5xl font-bold text-olive">{readiness}%</div>
             <div className="h-3 w-full rounded-full bg-slate-100">
               <div
-                className="h-3 rounded-full bg-emerald-500 transition-all"
+                className="h-3 rounded-full bg-olive transition-all"
                 style={{ width: `${readiness}%` }}
               />
             </div>
@@ -51,12 +51,10 @@ export default function ProgressPage() {
             <CardTitle>Vocabulary recall</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-5xl font-bold text-emerald-600">
+            <div className="text-5xl font-bold text-olive">
               {Math.round((stats.knownVocab.length / categories.length) * 100)}%
             </div>
-            <p className="text-sm text-slate-500">
-              {stats.knownVocab.length} terms marked as mastered.
-            </p>
+            <p className="text-sm text-slate-500">{stats.knownVocab.length} terms marked as mastered.</p>
           </CardContent>
         </Card>
       </div>
@@ -80,7 +78,7 @@ export default function ProgressPage() {
                   </div>
                   <div className="h-2 w-full rounded-full bg-slate-100">
                     <div
-                      className="h-2 rounded-full bg-emerald-500 transition-all"
+                      className="h-2 rounded-full bg-olive transition-all"
                       style={{ width: `${pct}%` }}
                     />
                   </div>

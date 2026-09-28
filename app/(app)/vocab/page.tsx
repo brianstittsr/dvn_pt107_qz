@@ -40,7 +40,7 @@ export default function VocabPage() {
                 onClick={() => setFilter(f)}
                 className={cn(
                   "rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-colors",
-                  filter === f ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"
+                  filter === f ? "bg-navy text-white" : "text-slate-600 hover:bg-slate-50"
                 )}
               >
                 {f}
@@ -56,7 +56,9 @@ export default function VocabPage() {
 
       {filtered.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-slate-500">No cards here yet. Try another filter.</CardContent>
+          <CardContent className="py-12 text-center text-slate-500">
+            No cards here yet. Try another filter.
+          </CardContent>
         </Card>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -70,18 +72,20 @@ export default function VocabPage() {
               >
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-start justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-emerald-600">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-olive">
                       {categories.find((c) => c.id === v.categoryId)?.name ?? v.categoryId}
                     </span>
                     <span className="text-xs text-slate-400">Click to flip</span>
                   </div>
-                  <div className={cn("min-h-[80px]", flipped[v.id] ? "text-slate-700" : "text-xl font-semibold")}>
+                  <div
+                    className={cn("min-h-[80px]", flipped[v.id] ? "text-slate-700" : "text-xl font-semibold")}
+                  >
                     {flipped[v.id] ? v.definition : v.term}
                   </div>
                   <Button
                     variant={known ? "outline" : "default"}
                     size="sm"
-                    className="w-full"
+                    className={known ? "" : "bg-olive text-white hover:bg-olive-light"}
                     onClick={(e) => {
                       e.stopPropagation();
                       markVocabKnown(v.id, !known);

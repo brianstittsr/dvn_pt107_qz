@@ -1,7 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { AlertTriangle, BarChart3, BookOpen, Crosshair, Flame, RefreshCcw, Shield, Target, Trophy, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  AlertTriangle,
+  BarChart3,
+  BookOpen,
+  Crosshair,
+  Flame,
+  RefreshCcw,
+  Shield,
+  Target,
+  Trophy,
+  User,
+  Users,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/components/auth-provider";
@@ -10,6 +23,7 @@ import { categories } from "@/lib/data";
 import { percent } from "@/lib/utils";
 
 export default function AdminPage() {
+  const router = useRouter();
   const { user, profile, signInWithGoogle, loading } = useAuth();
   const { stats, resetStats } = useAppStore();
 
@@ -43,7 +57,7 @@ export default function AdminPage() {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Operator Admin Panel</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Command Center</h1>
           <p className="text-slate-500">Track readiness, identify gaps, and manage your study mission.</p>
         </div>
         {user ? (
@@ -59,13 +73,57 @@ export default function AdminPage() {
             >
               {profile?.subscriptionStatus === "active" ? "Pro active" : "Free tier"}
             </span>
+            {profile?.role === "admin" && (
+              <span className="rounded-full bg-olive/10 px-2 py-0.5 text-xs font-medium text-olive">Admin</span>
+            )}
           </div>
         ) : (
-          <Button onClick={signInWithGoogle} className="bg-emerald-600 text-white hover:bg-emerald-500">
+          <Button onClick={signInWithGoogle} className="bg-olive text-white hover:bg-olive-light">
             Sign in with Google
           </Button>
         )}
       </div>
+
+      {profile?.role === "admin" && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Card className="border-olive/20 bg-olive/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-olive">
+                <Users className="h-5 w-5" />
+                User management
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-slate-600">View registered users, roles, and subscription status.</p>
+              <Button
+                className="mt-4 bg-olive text-white hover:bg-olive-light"
+                size="sm"
+                onClick={() => router.push("/admin/users")}
+              >
+                Open user admin
+              </Button>
+            </CardContent>
+          </Card>
+          <Card className="border-olive/20 bg-olive/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-olive">
+                <BarChart3 className="h-5 w-5" />
+                Site overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-slate-600">Platform-wide activity, subscription, and quiz metrics.</p>
+              <Button
+                className="mt-4 bg-olive text-white hover:bg-olive-light"
+                size="sm"
+                onClick={() => router.push("/admin/overview")}
+              >
+                Open overview
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* KPI cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -110,7 +168,7 @@ export default function AdminPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-emerald-600">{readiness}%</div>
+            <div className="text-3xl font-bold text-olive">{readiness}%</div>
           </CardContent>
         </Card>
       </div>
@@ -126,7 +184,9 @@ export default function AdminPage() {
           </CardHeader>
           <CardContent>
             {focusAreas.length === 0 ? (
-              <p className="text-sm text-slate-500">Answer questions in each category to generate focus recommendations.</p>
+              <p className="text-sm text-slate-500">
+                Answer questions in each category to generate focus recommendations.
+              </p>
             ) : (
               <div className="space-y-4">
                 {focusAreas.map((item) => (
@@ -188,7 +248,7 @@ export default function AdminPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-emerald-600" />
+            <BarChart3 className="h-5 w-5 text-olive" />
             Full category breakdown
           </CardTitle>
         </CardHeader>
@@ -202,7 +262,7 @@ export default function AdminPage() {
                 </div>
                 <div className="h-2 w-full rounded-full bg-slate-100">
                   <div
-                    className="h-2 rounded-full bg-emerald-500 transition-all"
+                    className="h-2 rounded-full bg-olive transition-all"
                     style={{ width: `${item.pct}%` }}
                   />
                 </div>
