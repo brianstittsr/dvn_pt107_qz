@@ -45,19 +45,19 @@ const careers = [
     title: "Commercial Remote Pilot",
     description:
       "Fly drones for cinematography, inspection, mapping, agriculture, and logistics under Part 107.",
-    image: "https://images.unsplash.com/photo-aqq7w4xahMM?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1757170889571-24e12e70dd21?auto=format&fit=crop&w=800&q=80",
   },
   {
     title: "Public Safety Drone Pilot",
     description:
       "Support law enforcement, fire, and search-and-rescue teams with aerial situational awareness.",
-    image: "https://images.unsplash.com/photo-g7Sn480abpw?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1690149372906-8dedeb6496ea?auto=format&fit=crop&w=800&q=80",
   },
   {
     title: "Drone Maintenance Technician",
     description:
       "Keep airframes, sensors, and control stations mission-ready with inspections and preventive maintenance.",
-    image: "https://images.unsplash.com/photo-3H5P_3FXCZs?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1774553988130-ccda57774818?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
