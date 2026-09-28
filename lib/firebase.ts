@@ -15,6 +15,11 @@ function getFirebaseApp(): FirebaseApp {
   if (typeof window === "undefined") {
     throw new Error("Firebase client SDK should only be used in the browser");
   }
+  if (!firebaseConfig.apiKey) {
+    throw new Error(
+      "NEXT_PUBLIC_FIREBASE_API_KEY is missing. Create a .env.local file from env.example and restart the dev server."
+    );
+  }
   return getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 }
 
@@ -25,8 +30,6 @@ function getClientAuth(): Auth {
 function getClientDb(): Firestore {
   return getFirestore(getFirebaseApp());
 }
-
-export { getFirebaseApp, getClientAuth, getClientDb };
 
 let authInstance: Auth | null = null;
 let dbInstance: Firestore | null = null;

@@ -34,22 +34,22 @@ const careers = [
   {
     title: "Military UAS Operator",
     description: "Plan, launch, and recover unmanned systems in support of reconnaissance, surveillance, and tactical operations.",
-    image: "https://placehold.co/600x400/1c2a1c/e4e4e4?text=Military+UAS+Operator",
+    image: "https://placehold.co/600x400.png/1c2a1c/e4e4e4?text=Military+UAS+Operator",
   },
   {
     title: "Commercial Remote Pilot",
     description: "Fly drones for cinematography, inspection, mapping, agriculture, and logistics under Part 107.",
-    image: "https://placehold.co/600x400/2a3b2a/e4e4e4?text=Commercial+Remote+Pilot",
+    image: "https://placehold.co/600x400.png/2a3b2a/e4e4e4?text=Commercial+Remote+Pilot",
   },
   {
     title: "Public Safety Drone Pilot",
     description: "Support law enforcement, fire, and search-and-rescue teams with aerial situational awareness.",
-    image: "https://placehold.co/600x400/1c2a1c/e4e4e4?text=Public+Safety+Pilot",
+    image: "https://placehold.co/600x400.png/1c2a1c/e4e4e4?text=Public+Safety+Pilot",
   },
   {
     title: "Drone Maintenance Technician",
     description: "Keep airframes, sensors, and control stations mission-ready with inspections and preventive maintenance.",
-    image: "https://placehold.co/600x400/2a3b2a/e4e4e4?text=Maintenance+Technician",
+    image: "https://placehold.co/600x400.png/2a3b2a/e4e4e4?text=Maintenance+Technician",
   },
 ];
 
@@ -88,7 +88,7 @@ export default function HomePage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-700 shadow-2xl">
               <Image
-                src="https://placehold.co/800x600/142214/d9d9d9?text=Military+drone+crew+operating+a+UAS+in+a+tactical+environment"
+                src="https://placehold.co/800x600.png/142214/d9d9d9?text=Military+drone+crew+operating+a+UAS+in+a+tactical+environment"
                 alt="Military drone crew operating a UAS in a tactical environment"
                 fill
                 className="object-cover"
