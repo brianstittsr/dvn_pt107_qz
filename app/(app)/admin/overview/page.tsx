@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HudCard } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
 import { apiFetch } from "@/lib/api-client";
+import { DEMO_OVERVIEW } from "@/lib/demo-data";
 
 interface OverviewStats {
   totalUsers: number;
@@ -20,15 +21,23 @@ interface OverviewStats {
 
 export default function AdminOverviewPage() {
   const router = useRouter();
-  const { profile, loading: authLoading } = useAuth();
+  const { effectiveProfile, demo, loading: authLoading } = useAuth();
   const [stats, setStats] = React.useState<OverviewStats | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (authLoading) return;
-    if (profile?.role !== "admin") {
+    if (effectiveProfile?.role !== "admin") {
       router.replace("/admin");
+      return;
+    }
+    if (demo) {
+      // Defer fixture state out of the effect body (react-hooks/set-state-in-effect).
+      void Promise.resolve().then(() => {
+        setStats(DEMO_OVERVIEW);
+        setLoading(false);
+      });
       return;
     }
     apiFetch<OverviewStats>("/api/admin/overview")
@@ -37,7 +46,7 @@ export default function AdminOverviewPage() {
         setError(err instanceof Error ? err.message : "Unknown error");
       })
       .finally(() => setLoading(false));
-  }, [authLoading, profile, router]);
+  }, [authLoading, effectiveProfile, demo, router]);
 
   if (authLoading || loading) {
     return (

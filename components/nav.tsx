@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BookOpen, LayoutDashboard, Library, LogIn, LogOut, TrendingUp, UserCog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InsigniaBadge } from "@/components/military";
@@ -18,7 +18,8 @@ const navItems = [
 
 export function Nav() {
   const pathname = usePathname();
-  const { user, profile, signOut } = useAuth();
+  const router = useRouter();
+  const { user, effectiveProfile, demo, demoRole, signOut, exitDemo, setDemoRole } = useAuth();
 
   return (
     <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col overflow-hidden border-r border-navy bg-navy p-5 text-tan-light/80">
@@ -52,7 +53,7 @@ export function Nav() {
               </Link>
             );
           })}
-          {profile?.role === "admin" && (
+          {effectiveProfile?.role === "admin" && (
             <Link
               href="/admin"
               className={cn(
@@ -69,16 +70,52 @@ export function Nav() {
         </nav>
 
         <div className="border-t border-tan-light/20 pt-4">
-          {user ? (
+          {user || demo ? (
             <div className="space-y-3">
+              {demo && (
+                <div className="space-y-2 px-3">
+                  <div className="flex items-center gap-2">
+                    <InsigniaBadge variant="admin">Demo</InsigniaBadge>
+                    <span className="text-[10px] text-tan-light/60">Simulated data</span>
+                  </div>
+                  <div
+                    className="flex rounded-lg border border-tan-light/20 p-0.5"
+                    role="group"
+                    aria-label="Demo role"
+                  >
+                    {(
+                      [
+                        { role: "user", label: "Pilot" },
+                        { role: "admin", label: "Admin" },
+                      ] as const
+                    ).map((option) => (
+                      <button
+                        key={option.role}
+                        type="button"
+                        onClick={() => setDemoRole(option.role)}
+                        className={cn(
+                          "flex-1 rounded-md px-2 py-1 text-xs font-medium transition-colors",
+                          demoRole === option.role
+                            ? "bg-olive text-white"
+                            : "text-tan-light/70 hover:text-tan-light"
+                        )}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="space-y-1 px-3 text-xs text-tan-light/50">
-                <div className="font-medium text-tan-light">{user.displayName || user.email}</div>
-                <div className="truncate">{user.email}</div>
+                <div className="font-medium text-tan-light">
+                  {effectiveProfile?.displayName || effectiveProfile?.email}
+                </div>
+                <div className="truncate">{effectiveProfile?.email}</div>
                 <div className="pt-1">
                   <InsigniaBadge
-                    variant={profile?.subscriptionStatus === "active" ? "pro" : "free"}
+                    variant={effectiveProfile?.subscriptionStatus === "active" ? "pro" : "free"}
                   >
-                    {profile?.subscriptionStatus === "active" ? "Pro" : "Free tier"}
+                    {effectiveProfile?.subscriptionStatus === "active" ? "Pro" : "Free tier"}
                   </InsigniaBadge>
                 </div>
               </div>
@@ -86,10 +123,17 @@ export function Nav() {
                 variant="ghost"
                 size="sm"
                 className="w-full justify-start text-tan-light/70 hover:bg-white/10 hover:text-tan-light"
-                onClick={signOut}
+                onClick={
+                  demo
+                    ? () => {
+                        exitDemo();
+                        router.push("/login");
+                      }
+                    : signOut
+                }
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                Sign out
+                {demo ? "Exit demo" : "Sign out"}
               </Button>
             </div>
           ) : (

@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HudCard, InsigniaBadge } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
 import { apiFetch } from "@/lib/api-client";
+import { DEMO_PAYMENTS } from "@/lib/demo-data";
 import { getPlan, type PlanId } from "@/lib/plans";
 import type { PaymentRecord } from "@/lib/types";
 
@@ -34,15 +35,23 @@ function money(cents: number): string {
 
 export default function AdminPaymentsPage() {
   const router = useRouter();
-  const { profile, loading: authLoading } = useAuth();
+  const { effectiveProfile, demo, loading: authLoading } = useAuth();
   const [data, setData] = React.useState<PaymentsData | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (authLoading) return;
-    if (profile?.role !== "admin") {
+    if (effectiveProfile?.role !== "admin") {
       router.replace("/admin");
+      return;
+    }
+    if (demo) {
+      // Defer fixture state out of the effect body (react-hooks/set-state-in-effect).
+      void Promise.resolve().then(() => {
+        setData(DEMO_PAYMENTS);
+        setLoading(false);
+      });
       return;
     }
     apiFetch<PaymentsData>("/api/admin/payments")
@@ -51,7 +60,7 @@ export default function AdminPaymentsPage() {
         setError(err instanceof Error ? err.message : "Unknown error");
       })
       .finally(() => setLoading(false));
-  }, [authLoading, profile, router]);
+  }, [authLoading, effectiveProfile, demo, router]);
 
   if (authLoading || loading) {
     return (

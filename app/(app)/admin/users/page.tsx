@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InsigniaBadge } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
 import { apiFetch } from "@/lib/api-client";
+import { DEMO_USERS } from "@/lib/demo-data";
 
 interface UserRecord {
   uid: string;
@@ -20,15 +21,23 @@ interface UserRecord {
 
 export default function AdminUsersPage() {
   const router = useRouter();
-  const { profile, loading: authLoading } = useAuth();
+  const { effectiveProfile, demo, loading: authLoading } = useAuth();
   const [users, setUsers] = React.useState<UserRecord[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (authLoading) return;
-    if (profile?.role !== "admin") {
+    if (effectiveProfile?.role !== "admin") {
       router.replace("/admin");
+      return;
+    }
+    if (demo) {
+      // Defer fixture state out of the effect body (react-hooks/set-state-in-effect).
+      void Promise.resolve().then(() => {
+        setUsers(DEMO_USERS);
+        setLoading(false);
+      });
       return;
     }
     apiFetch<UserRecord[]>("/api/admin/users")
@@ -37,7 +46,7 @@ export default function AdminUsersPage() {
         setError(err instanceof Error ? err.message : "Unknown error");
       })
       .finally(() => setLoading(false));
-  }, [authLoading, profile, router]);
+  }, [authLoading, effectiveProfile, demo, router]);
 
   if (authLoading || loading) {
     return (

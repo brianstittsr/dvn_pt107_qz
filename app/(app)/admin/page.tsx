@@ -27,7 +27,7 @@ import { percent } from "@/lib/utils";
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, profile, signInWithGoogle, loading } = useAuth();
+  const { user, effectiveProfile, demo, signInWithGoogle, loading } = useAuth();
   const { stats, resetStats } = useAppStore();
 
   const totalAnswered = stats.answered;
@@ -63,21 +63,21 @@ export default function AdminPage() {
           <h1 className="stencil text-3xl tracking-tight text-olive-dark">Command Center</h1>
           <p className="text-olive-dark/60">Track readiness, identify gaps, and manage your study mission.</p>
         </div>
-        {user ? (
+        {user || demo ? (
           <div className="flex items-center gap-3 rounded-lg border border-tan/40 bg-surface px-4 py-2 text-sm text-foreground">
             <User className="h-4 w-4 text-olive-dark/60" />
-            <span>{user.displayName || user.email}</span>
-            <InsigniaBadge variant={profile?.subscriptionStatus === "active" ? "pro" : "free"}>
-              {profile?.subscriptionStatus === "active" ? "Pro" : "Free tier"}
+            <span>{effectiveProfile?.displayName || effectiveProfile?.email}</span>
+            <InsigniaBadge variant={effectiveProfile?.subscriptionStatus === "active" ? "pro" : "free"}>
+              {effectiveProfile?.subscriptionStatus === "active" ? "Pro" : "Free tier"}
             </InsigniaBadge>
-            {profile?.role === "admin" && <InsigniaBadge variant="admin">Admin</InsigniaBadge>}
+            {effectiveProfile?.role === "admin" && <InsigniaBadge variant="admin">Admin</InsigniaBadge>}
           </div>
         ) : (
           <Button onClick={signInWithGoogle}>Sign in with Google</Button>
         )}
       </div>
 
-      {profile?.role === "admin" && (
+      {effectiveProfile?.role === "admin" && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {

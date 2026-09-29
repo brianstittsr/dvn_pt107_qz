@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InsigniaBadge } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
 import { apiFetch } from "@/lib/api-client";
+import { DEMO_SUBSCRIPTIONS, applyDemoSubscriptionAction } from "@/lib/demo-data";
 import { PLANS, getPlan, type PlanId } from "@/lib/plans";
 import { toast } from "sonner";
 
@@ -36,7 +37,7 @@ function formatDate(iso: string | null): string {
 
 export default function AdminSubscriptionsPage() {
   const router = useRouter();
-  const { profile, loading: authLoading } = useAuth();
+  const { effectiveProfile, demo, loading: authLoading } = useAuth();
   const [rows, setRows] = React.useState<SubscriptionRow[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
@@ -45,26 +46,39 @@ export default function AdminSubscriptionsPage() {
   const [grantPlan, setGrantPlan] = React.useState<Record<string, PlanId>>({});
 
   const fetchRows = React.useCallback(() => {
+    if (demo) {
+      // Defer fixture state out of the effect body (react-hooks/set-state-in-effect).
+      return Promise.resolve().then(() => {
+        setRows(DEMO_SUBSCRIPTIONS.map((row) => ({ ...row })));
+        setLoading(false);
+      });
+    }
     return apiFetch<SubscriptionRow[]>("/api/admin/subscriptions")
       .then(setRows)
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : "Unknown error");
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [demo]);
 
   React.useEffect(() => {
     if (authLoading) return;
-    if (profile?.role !== "admin") {
+    if (effectiveProfile?.role !== "admin") {
       router.replace("/admin");
       return;
     }
     void fetchRows();
-  }, [authLoading, profile, router, fetchRows]);
+  }, [authLoading, effectiveProfile, router, fetchRows]);
 
   const act = async (uid: string, action: string, planId?: PlanId) => {
     setBusyUid(uid);
     try {
+      if (demo) {
+        // Demo mode — no API calls, just mutate the local fixture copy.
+        toast.info("Demo mode — changes aren't saved");
+        setRows((prev) => applyDemoSubscriptionAction(prev, uid, action, planId));
+        return;
+      }
       await apiFetch(`/api/admin/subscriptions/${uid}`, {
         method: "POST",
         body: JSON.stringify({ action, planId }),
