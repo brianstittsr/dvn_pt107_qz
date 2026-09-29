@@ -4,9 +4,7 @@ import { DroneBadge } from "@/components/drone-art";
 import { ChevronRank } from "@/components/military";
 
 const trainLinks = [
-  { href: "/quiz", label: "Quiz Lab" },
-  { href: "/vocab", label: "Vocabulary" },
-  { href: "/progress", label: "Progress" },
+  { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
 ];
 
