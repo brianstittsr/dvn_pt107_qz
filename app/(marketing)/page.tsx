@@ -90,12 +90,12 @@ export default function HomePage() {
                 military and commercial UAS professionals.
               </p>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Link href="/quiz">
+                <Link href="/activate">
                   <Button size="lg" className="bg-olive text-white hover:bg-olive-light">
-                    Start mission training
+                    Unlock Pro mission access
                   </Button>
                 </Link>
-                <Link href="/admin">
+                <Link href="/login">
                   <Button
                     size="lg"
                     variant="outline"

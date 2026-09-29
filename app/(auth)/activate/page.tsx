@@ -64,7 +64,7 @@ export default function ActivatePage() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="text-4xl font-bold text-tan-light">
-            $9<span className="text-lg font-normal text-tan-light/60">/mo</span>
+            $97<span className="text-lg font-normal text-tan-light/60">/mo</span>
           </div>
           <ul className="space-y-3">
             {features.map((feature) => (

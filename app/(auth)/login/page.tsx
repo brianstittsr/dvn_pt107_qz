@@ -115,14 +115,20 @@ export default function LoginPage() {
           </Button>
 
           <p className="text-center text-sm text-tan-light/60">
-            {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button
-              type="button"
-              onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="font-medium text-olive-light hover:underline"
-            >
-              {mode === "signin" ? "Sign up" : "Sign in"}
-            </button>
+            {mode === "signin" ? "Ready to unlock Pro?" : "Already have an account?"}{" "}
+            {mode === "signin" ? (
+              <Link href="/activate" className="font-medium text-olive-light hover:underline">
+                Activate subscription
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setMode("signin")}
+                className="font-medium text-olive-light hover:underline"
+              >
+                Sign in
+              </button>
+            )}
           </p>
 
           <Link href="/" className="block text-center text-sm text-tan-light/60 hover:text-tan-light">
