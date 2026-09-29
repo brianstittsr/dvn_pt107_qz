@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InsigniaBadge } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
 
 interface UserRecord {
@@ -43,7 +44,7 @@ export default function AdminUsersPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="flex h-full items-center justify-center gap-2 text-tan-light/60">
+      <div className="flex h-full items-center justify-center gap-2 text-olive-dark/60">
         <Loader2 className="h-5 w-5 animate-spin" />
         Loading user roster…
       </div>
@@ -53,11 +54,11 @@ export default function AdminUsersPage() {
   if (error) {
     return (
       <div className="space-y-4">
-        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
+        <Button variant="outline" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <Card className="border-red-900/30 bg-red-950/10 text-foreground">
-          <CardContent className="py-6 text-red-400">{error}</CardContent>
+        <Card className="border-danger/30 bg-danger/5">
+          <CardContent className="py-6 text-danger">{error}</CardContent>
         </Card>
       </div>
     );
@@ -66,16 +67,16 @@ export default function AdminUsersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
+        <Button variant="outline" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <h1 className="text-2xl font-bold tracking-tight text-tan-light">User Roster</h1>
+        <h1 className="stencil text-2xl tracking-tight text-olive-dark">User Roster</h1>
       </div>
 
-      <Card className="border-olive-dark/40 bg-card text-foreground">
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-tan-light">
-            <Users className="h-5 w-5 text-olive-light" />
+          <CardTitle className="flex items-center gap-2 text-olive-dark">
+            <Users className="h-5 w-5 text-olive" />
             Registered users ({users.length})
           </CardTitle>
         </CardHeader>
@@ -83,42 +84,30 @@ export default function AdminUsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-olive-dark/40 text-left text-tan-light/60">
-                  <th className="pb-2 pr-4 font-medium">Name</th>
-                  <th className="pb-2 pr-4 font-medium">Email</th>
-                  <th className="pb-2 pr-4 font-medium">Role</th>
-                  <th className="pb-2 pr-4 font-medium">Subscription</th>
-                  <th className="pb-2 font-medium">Joined</th>
+                <tr className="border-b border-tan/40 bg-surface-2 text-left text-olive-dark/70">
+                  <th className="px-3 py-2 font-medium">Name</th>
+                  <th className="px-3 py-2 font-medium">Email</th>
+                  <th className="px-3 py-2 font-medium">Role</th>
+                  <th className="px-3 py-2 font-medium">Subscription</th>
+                  <th className="px-3 py-2 font-medium">Joined</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.uid} className="border-b border-olive-dark/20 text-tan-light last:border-0">
-                    <td className="py-3 pr-4 font-medium">{user.displayName || "—"}</td>
-                    <td className="py-3 pr-4 text-tan-light/70">{user.email || "—"}</td>
-                    <td className="py-3 pr-4">
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          user.role === "admin"
-                            ? "bg-olive-dark/20 text-olive-light"
-                            : "bg-card-2 text-tan-light/60"
-                        }`}
-                      >
+                  <tr key={user.uid} className="border-b border-tan/20 text-foreground last:border-0">
+                    <td className="px-3 py-3 font-medium">{user.displayName || "—"}</td>
+                    <td className="px-3 py-3 text-olive-dark/70">{user.email || "—"}</td>
+                    <td className="px-3 py-3">
+                      <InsigniaBadge variant={user.role === "admin" ? "admin" : "neutral"}>
                         {user.role}
-                      </span>
+                      </InsigniaBadge>
                     </td>
-                    <td className="py-3 pr-4">
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                          user.subscriptionStatus === "active"
-                            ? "bg-olive-dark/20 text-olive-light"
-                            : "bg-card-2 text-tan-light/60"
-                        }`}
-                      >
+                    <td className="px-3 py-3">
+                      <InsigniaBadge variant={user.subscriptionStatus === "active" ? "pro" : "free"}>
                         {user.subscriptionStatus}
-                      </span>
+                      </InsigniaBadge>
                     </td>
-                    <td className="py-3 text-tan-light/50">
+                    <td className="px-3 py-3 text-olive-dark/50">
                       {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}
                     </td>
                   </tr>

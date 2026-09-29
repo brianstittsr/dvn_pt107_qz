@@ -1,38 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0c09;
-  --foreground: #e8e6e1;
-  --navy: #0b0f0a;
-  --navy-2: #141a12;
-  --olive: #556b2f;
+  --background: #f4f2ec;
+  --foreground: #1a1f14;
+  --surface: #ffffff;
+  --surface-2: #ebe7dc;
+  --navy: #0f1a12;
+  --olive: #4b5e2a;
   --olive-light: #6b8e3b;
-  --olive-dark: #3a4a1f;
-  --tan: #b8a87a;
-  --tan-light: #d4c8a3;
-  --danger: #c2410c;
-  --cyan: #7dd3c0;
-  --camo-1: #3f4a2d;
-  --camo-2: #5c5c3d;
-  --camo-3: #8b7d52;
-  --card: #11140f;
-  --card-2: #181c15;
+  --olive-dark: #2f3d1b;
+  --tan: #a8925c;
+  --tan-light: #d9cfa9;
+  --caution: #d69a1e;
+  --danger: #a83a1e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-navy: var(--navy);
-  --color-navy-2: var(--navy-2);
   --color-olive: var(--olive);
   --color-olive-light: var(--olive-light);
   --color-olive-dark: var(--olive-dark);
   --color-tan: var(--tan);
   --color-tan-light: var(--tan-light);
+  --color-caution: var(--caution);
   --color-danger: var(--danger);
-  --color-cyan: var(--cyan);
-  --color-card: var(--card);
-  --color-card-2: var(--card-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -42,11 +37,61 @@ body {
   color: var(--foreground);
 }
 
-.camo-bg {
-  background:
-    radial-gradient(circle at 20% 30%, rgba(85, 107, 47, 0.15) 0%, transparent 25%),
-    radial-gradient(circle at 80% 70%, rgba(139, 125, 82, 0.12) 0%, transparent 25%),
-    linear-gradient(135deg, #0a0c09 0%, #10130e 100%);
+.camo-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cpath d='M20 40c15-18 45-20 60-5s10 35-8 45-55 5-62-12 5-20 10-28z' fill='%234b5e2a'/%3E%3Cpath d='M150 20c20-10 50 0 55 20s-15 35-40 30-35-25-25-40c3-4 6-8 10-10z' fill='%23a8925c'/%3E%3Cpath d='M60 140c18-12 48-8 55 12s-10 38-35 38-45-15-40-32c2-7 10-14 20-18z' fill='%232f3d1b'/%3E%3Cpath d='M170 130c15-8 40-2 45 15s-10 32-32 30-30-20-22-35c3-4 5-7 9-10z' fill='%234b5e2a'/%3E%3Cpath d='M110 80c12-8 32-5 38 8s-5 28-22 28-32-14-27-26c2-4 6-8 11-10z' fill='%23a8925c'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.07;
+}
+
+.stencil {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hazard-stripe {
+  height: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--caution),
+    var(--caution) 10px,
+    var(--navy) 10px,
+    var(--navy) 20px
+  );
+}
+
+.hud-grid {
+  background-image:
+    linear-gradient(to right, rgba(217, 207, 169, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 207, 169, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.hud-corners {
+  position: relative;
+}
+
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.hud-corners::before {
+  top: 6px;
+  left: 6px;
+  border-top: 1.5px solid var(--olive);
+  border-left: 1.5px solid var(--olive);
+}
+
+.hud-corners::after {
+  bottom: 6px;
+  right: 6px;
+  border-bottom: 1.5px solid var(--olive);
+  border-right: 1.5px solid var(--olive);
 }
 
 .propeller-spin {

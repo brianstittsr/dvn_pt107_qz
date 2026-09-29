@@ -4,6 +4,7 @@ import * as React from "react";
 import { Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { InsigniaBadge } from "@/components/military";
 import { categories, vocabTerms } from "@/lib/data";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -29,25 +30,25 @@ export default function VocabPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-tan-light">Vocabulary Deck</h1>
-          <p className="text-tan-light/60">Flip cards and mark terms as mastered.</p>
+          <h1 className="stencil text-3xl tracking-tight text-olive-dark">Vocabulary Deck</h1>
+          <p className="text-olive-dark/60">Flip cards and mark terms as mastered.</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border border-olive-dark/40 bg-card p-1">
+          <div className="flex rounded-lg border border-tan/40 bg-surface p-1">
             {(["all", "unknown", "known"] as Filter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={cn(
                   "rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-colors",
-                  filter === f ? "bg-olive text-white" : "text-tan-light/70 hover:bg-olive-dark/20 hover:text-tan-light"
+                  filter === f ? "bg-olive text-white" : "text-olive-dark/70 hover:bg-olive/10 hover:text-olive-dark"
                 )}
               >
                 {f}
               </button>
             ))}
           </div>
-          <Button variant="outline" size="sm" onClick={shuffleTerms} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
+          <Button variant="outline" size="sm" onClick={shuffleTerms}>
             <Shuffle className="mr-1 h-4 w-4" />
             Shuffle
           </Button>
@@ -55,8 +56,8 @@ export default function VocabPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <Card className="border-olive-dark/40 bg-card text-foreground">
-          <CardContent className="py-12 text-center text-tan-light/60">
+        <Card>
+          <CardContent className="py-12 text-center text-olive-dark/60">
             No cards here yet. Try another filter.
           </CardContent>
         </Card>
@@ -68,34 +69,36 @@ export default function VocabPage() {
               <Card
                 key={v.id}
                 onClick={() => setFlipped((prev) => ({ ...prev, [v.id]: !prev[v.id] }))}
-                className="cursor-pointer border-olive-dark/40 bg-card text-foreground transition-shadow hover:shadow-lg hover:shadow-olive-dark/20"
+                className="cursor-pointer transition-shadow hover:shadow-lg"
               >
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-start justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-olive-light">
+                    <span className="stencil text-xs text-olive">
                       {categories.find((c) => c.id === v.categoryId)?.name ?? v.categoryId}
                     </span>
-                    <span className="text-xs text-tan-light/40">Click to flip</span>
+                    <span className="text-xs text-olive-dark/40">Click to flip</span>
                   </div>
                   <div
                     className={cn(
-                      "min-h-[80px] text-tan-light",
-                      flipped[v.id] ? "text-tan-light/80" : "text-xl font-semibold text-tan-light"
+                      "min-h-[80px] text-foreground",
+                      flipped[v.id] ? "text-olive-dark/80" : "text-xl font-semibold"
                     )}
                   >
                     {flipped[v.id] ? v.definition : v.term}
                   </div>
-                  <Button
-                    variant={known ? "outline" : "default"}
-                    size="sm"
-                    className={known ? "border-olive-dark/40 bg-card-2 text-tan-light hover:bg-olive-dark/20" : "bg-olive text-white hover:bg-olive-light"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markVocabKnown(v.id, !known);
-                    }}
-                  >
-                    {known ? "Mastered ✓" : "Mark mastered"}
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant={known ? "outline" : "default"}
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markVocabKnown(v.id, !known);
+                      }}
+                    >
+                      {known ? "Unmark" : "Mark mastered"}
+                    </Button>
+                    {known && <InsigniaBadge variant="free">Mastered</InsigniaBadge>}
+                  </div>
                 </CardContent>
               </Card>
             );

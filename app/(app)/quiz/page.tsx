@@ -64,24 +64,22 @@ export default function QuizPage() {
   if (currentQuiz && finished) {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
-        <Card className="border-olive-dark/40 bg-card text-foreground">
+        <Card>
           <CardHeader>
-            <CardTitle className="text-tan-light">Mission complete</CardTitle>
+            <CardTitle className="stencil text-olive-dark">Mission complete</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-2xl font-bold text-tan-light">
+            <p className="text-2xl font-bold text-foreground">
               {score} / {currentQuiz.items.length} correct
             </p>
-            <p className="text-tan-light/60">
+            <p className="text-olive-dark/60">
               {score === currentQuiz.items.length
                 ? "Outstanding. You are cleared for the next challenge."
                 : "Review the debrief and run it again."}
             </p>
             <div className="flex gap-3">
-              <Button onClick={() => setCurrentQuiz(null)} className="bg-olive text-white hover:bg-olive-light">
-                Back to setup
-              </Button>
-              <Button variant="outline" onClick={() => router.push("/dashboard")} className="border-olive-dark/40">
+              <Button onClick={() => setCurrentQuiz(null)}>Back to setup</Button>
+              <Button variant="outline" onClick={() => router.push("/dashboard")}>
                 Dashboard
               </Button>
             </div>
@@ -95,20 +93,18 @@ export default function QuizPage() {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-tan-light">Quiz Lab</h1>
-          <p className="text-tan-light/60">Choose a focus area and launch a quiz.</p>
+          <h1 className="stencil text-3xl tracking-tight text-olive-dark">Quiz Lab</h1>
+          <p className="text-olive-dark/60">Choose a focus area and launch a quiz.</p>
         </div>
-        <Card className="border-olive-dark/40 bg-card text-foreground">
+        <Card>
           <CardContent className="space-y-6 pt-6">
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-tan-light">
-                Focus area
-              </Label>
+              <Label htmlFor="category">Focus area</Label>
               <select
                 id="category"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full rounded-md border border-olive-dark/40 bg-card-2 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
+                className="w-full rounded-md border border-tan/60 bg-white px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="all">Mixed review — all areas</option>
                 {categories.map((c) => (
@@ -119,21 +115,19 @@ export default function QuizPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="length" className="text-tan-light">
-                Questions
-              </Label>
+              <Label htmlFor="length">Questions</Label>
               <select
                 id="length"
                 value={length}
                 onChange={(e) => setLength(e.target.value === "all" ? "all" : Number(e.target.value))}
-                className="w-full rounded-md border border-olive-dark/40 bg-card-2 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
+                className="w-full rounded-md border border-tan/60 bg-white px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="10">10 questions</option>
                 <option value="20">20 questions</option>
                 <option value="all">All available</option>
               </select>
             </div>
-            <Button onClick={startQuiz} className="w-full bg-olive text-white hover:bg-olive-light">
+            <Button onClick={startQuiz} className="w-full">
               Launch quiz
             </Button>
           </CardContent>
@@ -148,10 +142,10 @@ export default function QuizPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-tan-light">
+          <h1 className="stencil text-2xl tracking-tight text-olive-dark">
             Question {currentQuiz.index + 1}
           </h1>
-          <p className="text-sm text-tan-light/60">
+          <p className="text-sm text-olive-dark/60">
             {currentQuiz.index + 1} of {currentQuiz.items.length} ·{" "}
             {categories.find((c) => c.id === currentQuestion.categoryId)?.name}
           </p>
@@ -160,15 +154,14 @@ export default function QuizPage() {
           variant="ghost"
           size="sm"
           onClick={() => setCurrentQuiz(null)}
-          className="text-tan-light/60 hover:bg-olive-dark/20 hover:text-tan-light"
         >
           Exit quiz
         </Button>
       </div>
 
-      <Card className="border-olive-dark/40 bg-card text-foreground">
+      <Card>
         <CardContent className="space-y-6 pt-6">
-          <p className="text-lg font-medium leading-relaxed text-tan-light">{currentQuestion.question}</p>
+          <p className="text-lg font-medium leading-relaxed text-foreground">{currentQuestion.question}</p>
           <div className="grid gap-3">
             {currentQuestion.answers.map((answer, idx) => {
               const selected = currentItem.selectedIndex === idx;
@@ -180,14 +173,14 @@ export default function QuizPage() {
                   disabled={currentItem.answered}
                   onClick={() => handleAnswer(idx)}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg border p-4 text-left text-tan-light transition-colors",
-                    showResult && isCorrect && "border-olive bg-olive-dark/20",
-                    showResult && selected && !isCorrect && "border-red-400/60 bg-red-400/10",
-                    !showResult && "border-olive-dark/40 bg-card-2 hover:border-olive hover:bg-olive-dark/10",
-                    !showResult && selected && "border-olive bg-olive-dark/20"
+                    "flex items-center gap-3 rounded-lg border p-4 text-left text-foreground transition-colors",
+                    showResult && isCorrect && "border-olive bg-olive/10",
+                    showResult && selected && !isCorrect && "border-danger bg-danger/10",
+                    !showResult && "border-tan/60 bg-white hover:border-olive hover:bg-olive/5",
+                    !showResult && selected && "border-olive bg-olive/10"
                   )}
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-olive-dark/30 text-sm font-semibold text-tan-light">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-sm font-semibold text-olive-dark">
                     {String.fromCharCode(65 + idx)}
                   </span>
                   <span>{answer}</span>
@@ -197,8 +190,9 @@ export default function QuizPage() {
           </div>
 
           {currentItem.answered && (
-            <div className="rounded-lg bg-card-2 p-4 text-sm text-tan-light/80">
-              <strong className="text-tan-light">Debrief:</strong> {currentQuestion.explanation}
+            <div className="relative overflow-hidden rounded-lg bg-surface-2 p-4 pt-6 text-sm text-olive-dark/80">
+              <div className="hazard-stripe absolute inset-x-0 top-0" aria-hidden="true" />
+              <strong className="text-olive-dark">Debrief:</strong> {currentQuestion.explanation}
             </div>
           )}
 
@@ -210,7 +204,7 @@ export default function QuizPage() {
                   index: currentQuiz.index + 1,
                 })
               }
-              className="w-full bg-olive text-white hover:bg-olive-light"
+              className="w-full"
             >
               {currentQuiz.index + 1 === currentQuiz.items.length ? "Finish quiz" : "Next question"}
             </Button>

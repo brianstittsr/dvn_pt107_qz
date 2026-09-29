@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/components/auth-provider";
@@ -52,22 +52,20 @@ export default function LoginPage() {
   if (loading) return null;
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center">
-      <Card className="w-full max-w-md border-olive-dark/40 bg-card text-foreground">
+    <div className="flex min-h-[80vh] items-center justify-center px-6 py-12">
+      <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-olive-dark/30 text-olive-light">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-olive/10 text-olive">
             <Shield className="h-5 w-5" />
           </div>
-          <CardTitle className="text-center text-tan-light">
+          <h1 className="stencil text-center text-lg text-olive-dark">
             {mode === "signin" ? "Sign in" : "Create account"}
-          </CardTitle>
+          </h1>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleEmail} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-tan-light">
-                Email
-              </Label>
+              <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -75,13 +73,10 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="border-olive-dark/40 bg-card-2 text-foreground placeholder:text-tan-light/40"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-tan-light">
-                Password
-              </Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -89,13 +84,12 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="border-olive-dark/40 bg-card-2 text-foreground placeholder:text-tan-light/40"
               />
             </div>
             <Button
               type="submit"
               disabled={submitting}
-              className="w-full bg-olive text-white hover:bg-olive-light"
+              className="w-full"
             >
               {mode === "signin" ? "Sign in" : "Create account"}
             </Button>
@@ -103,37 +97,33 @@ export default function LoginPage() {
 
           <div className="relative py-2">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-olive-dark/40" />
+              <div className="w-full border-t border-tan/40" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-tan-light/60">Or</span>
+              <span className="bg-surface px-2 text-olive-dark/60">Or</span>
             </div>
           </div>
 
-          <Button variant="outline" onClick={handleGoogle} className="w-full border-olive-dark/40 text-tan-light hover:bg-card-2">
+          <Button variant="outline" onClick={handleGoogle} className="w-full">
             Continue with Google
           </Button>
 
-          <p className="text-center text-sm text-tan-light/60">
+          <p className="text-center text-sm text-olive-dark/60">
             {mode === "signin" ? "Ready to unlock Pro?" : "Already have an account?"}{" "}
             {mode === "signin" ? (
-              <Link href="/activate" className="font-medium text-olive-light hover:underline">
+              <Link href="/activate" className="font-medium text-olive hover:underline">
                 Activate subscription
               </Link>
             ) : (
               <button
                 type="button"
                 onClick={() => setMode("signin")}
-                className="font-medium text-olive-light hover:underline"
+                className="font-medium text-olive hover:underline"
               >
                 Sign in
               </button>
             )}
           </p>
-
-          <Link href="/" className="block text-center text-sm text-tan-light/60 hover:text-tan-light">
-            ← Back to home
-          </Link>
         </CardContent>
       </Card>
     </div>
