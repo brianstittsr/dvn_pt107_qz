@@ -22,6 +22,7 @@ interface AuthContextValue {
   signInWithEmail: (email: string, password: string) => Promise<void>;
   signUpWithEmail: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextValue | undefined>(undefined);
@@ -37,6 +38,9 @@ function buildProfile(uid: string, snap: UserProfile | undefined): UserProfile {
     subscriptionExpiry: snap?.subscriptionExpiry ?? null,
     stripeCustomerId: snap?.stripeCustomerId ?? null,
     stripeSubscriptionId: snap?.stripeSubscriptionId ?? null,
+    planId: snap?.planId ?? null,
+    cancelAtPeriodEnd: snap?.cancelAtPeriodEnd ?? false,
+    registration: snap?.registration ?? null,
   };
 }
 
@@ -65,6 +69,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             subscriptionExpiry: null,
             stripeCustomerId: null,
             stripeSubscriptionId: null,
+            planId: null,
+            cancelAtPeriodEnd: false,
+            registration: null,
             createdAt: serverTimestamp(),
           });
         }
@@ -92,6 +99,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await firebaseSignOut(getAuthInstance());
   }, []);
 
+  const refreshProfile = React.useCallback(async () => {
+    const current = getAuthInstance().currentUser;
+    if (!current) return;
+    const snap = await getDoc(doc(getDbInstance(), "users", current.uid));
+    setProfile(buildProfile(current.uid, snap.exists() ? (snap.data() as UserProfile) : undefined));
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -102,6 +116,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signInWithEmail,
         signUpWithEmail,
         signOut,
+        refreshProfile,
       }}
     >
       {children}

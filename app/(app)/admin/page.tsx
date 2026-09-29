@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   AlertTriangle,
+  BadgeCheck,
   BarChart3,
   BookOpen,
+  CreditCard,
   Crosshair,
   Flame,
   RefreshCcw,
@@ -76,37 +78,56 @@ export default function AdminPage() {
       </div>
 
       {profile?.role === "admin" && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Card className="relative overflow-hidden pt-1">
-            <div className="hazard-stripe absolute inset-x-0 top-0" aria-hidden="true" />
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-olive-dark">
-                <Users className="h-5 w-5 text-olive" />
-                User management
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-olive-dark/70">View registered users, roles, and subscription status.</p>
-              <Button className="mt-4" size="sm" onClick={() => router.push("/admin/users")}>
-                Open user admin
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="relative overflow-hidden pt-1">
-            <div className="hazard-stripe absolute inset-x-0 top-0" aria-hidden="true" />
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-olive-dark">
-                <BarChart3 className="h-5 w-5 text-olive" />
-                Site overview
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-olive-dark/70">Platform-wide activity, subscription, and quiz metrics.</p>
-              <Button className="mt-4" size="sm" onClick={() => router.push("/admin/overview")}>
-                Open overview
-              </Button>
-            </CardContent>
-          </Card>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              icon: Users,
+              title: "User management",
+              desc: "View registered users, roles, and subscription status.",
+              href: "/admin/users",
+              cta: "Open user admin",
+            },
+            {
+              icon: BarChart3,
+              title: "Site overview",
+              desc: "Platform-wide activity, subscription, and quiz metrics.",
+              href: "/admin/overview",
+              cta: "Open overview",
+            },
+            {
+              icon: CreditCard,
+              title: "Payments",
+              desc: "One-time and subscription payment records.",
+              href: "/admin/payments",
+              cta: "Open payments",
+            },
+            {
+              icon: BadgeCheck,
+              title: "Subscriptions",
+              desc: "Manage plan access, renewals, and revocations.",
+              href: "/admin/subscriptions",
+              cta: "Open subscriptions",
+            },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <Card key={item.href} className="relative overflow-hidden pt-1">
+                <div className="hazard-stripe absolute inset-x-0 top-0" aria-hidden="true" />
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-olive-dark">
+                    <Icon className="h-5 w-5 text-olive" />
+                    {item.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-olive-dark/70">{item.desc}</p>
+                  <Button className="mt-4" size="sm" onClick={() => router.push(item.href)}>
+                    {item.cta}
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
 

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -11,8 +11,11 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/components/auth-provider";
 import { toast } from "sonner";
 
-export default function LoginPage() {
+function LoginPageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextParam = searchParams.get("next");
+  const next = nextParam && nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/dashboard";
   const { user, signInWithGoogle, signInWithEmail, signUpWithEmail, loading } = useAuth();
   const [mode, setMode] = React.useState<"signin" | "signup">("signin");
   const [email, setEmail] = React.useState("");
@@ -20,8 +23,8 @@ export default function LoginPage() {
   const [submitting, setSubmitting] = React.useState(false);
 
   React.useEffect(() => {
-    if (user) router.push("/dashboard");
-  }, [user, router]);
+    if (user) router.push(next);
+  }, [user, router, next]);
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +35,7 @@ export default function LoginPage() {
       } else {
         await signUpWithEmail(email, password);
       }
-      router.push("/dashboard");
+      router.push(next);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Authentication failed");
     } finally {
@@ -43,7 +46,7 @@ export default function LoginPage() {
   const handleGoogle = async () => {
     try {
       await signInWithGoogle();
-      router.push("/dashboard");
+      router.push(next);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
     }
@@ -127,5 +130,13 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <React.Suspense fallback={null}>
+      <LoginPageInner />
+    </React.Suspense>
   );
 }

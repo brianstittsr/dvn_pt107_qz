@@ -1,13 +1,146 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { BookOpen, Brain, Flame, Library, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronRank, HudCard } from "@/components/military";
+import { ChevronRank, HudCard, InsigniaBadge } from "@/components/military";
 import { useAppStore } from "@/lib/store";
 import { categories } from "@/lib/data";
 import { percent } from "@/lib/utils";
 import { useAuth } from "@/components/auth-provider";
+import { apiFetch } from "@/lib/api-client";
+import { getPlan } from "@/lib/plans";
+import { toast } from "sonner";
+
+function formatDate(iso: string | null): string {
+  return iso ? new Date(iso).toLocaleDateString() : "—";
+}
+
+function SubscriptionCard() {
+  const { user, profile, refreshProfile } = useAuth();
+  const searchParams = useSearchParams();
+  const [confirming, setConfirming] = React.useState(false);
+  const [busy, setBusy] = React.useState(false);
+
+  React.useEffect(() => {
+    if (searchParams.get("checkout") === "success") {
+      toast.success("Payment received — welcome to Pro!");
+      refreshProfile();
+    }
+  }, [searchParams, refreshProfile]);
+
+  if (!user || !profile) return null;
+
+  const plan = profile.planId ? getPlan(profile.planId) : null;
+  const isActive = profile.subscriptionStatus === "active";
+  const isMonthly = profile.planId === "monthly";
+  const expiry = formatDate(profile.subscriptionExpiry);
+
+  const call = async (path: string, successMsg: string) => {
+    setBusy(true);
+    try {
+      await apiFetch(path, { method: "POST" });
+      toast.success(successMsg);
+      await refreshProfile();
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Request failed");
+    } finally {
+      setBusy(false);
+      setConfirming(false);
+    }
+  };
+
+  const openPortal = async () => {
+    setBusy(true);
+    try {
+      const { url } = await apiFetch<{ url: string }>("/api/stripe/portal", { method: "POST" });
+      window.location.href = url;
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Could not open billing portal");
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card className="relative overflow-hidden pt-1">
+      <div className="hazard-stripe absolute inset-x-0 top-0" aria-hidden="true" />
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between text-olive-dark">
+          <span>Your subscription</span>
+          <InsigniaBadge variant={isActive ? "pro" : "free"}>
+            {isActive ? "Pro" : "Free tier"}
+          </InsigniaBadge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
+          <span className="font-medium text-foreground">{plan ? plan.name : "Free tier"}</span>
+          <span className="text-olive-dark/60 capitalize">
+            Status: {profile.subscriptionStatus.replace("_", " ")}
+          </span>
+          {isActive && plan && (
+            <span className="text-olive-dark/60">
+              {isMonthly && !profile.cancelAtPeriodEnd ? `Renews on ${expiry}` : `Access until ${expiry}`}
+            </span>
+          )}
+        </div>
+
+        {isActive && plan && plan.mode === "payment" && (
+          <p className="text-sm text-olive-dark/60">Prepaid — no renewal. Access until {expiry}.</p>
+        )}
+
+        {confirming ? (
+          <div className="flex flex-wrap items-center gap-3 rounded-lg bg-danger/5 p-3 text-sm text-danger">
+            <span>Cancel at end of period? You keep access until {expiry}.</span>
+            <div className="flex gap-2">
+              <Button
+                variant="danger"
+                size="sm"
+                disabled={busy}
+                onClick={() => call("/api/stripe/cancel", "Subscription will cancel at period end.")}
+              >
+                Confirm
+              </Button>
+              <Button variant="outline" size="sm" disabled={busy} onClick={() => setConfirming(false)}>
+                Keep
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {isActive && isMonthly && !profile.cancelAtPeriodEnd && (
+              <Button variant="danger" size="sm" onClick={() => setConfirming(true)}>
+                Cancel subscription
+              </Button>
+            )}
+            {isActive && isMonthly && profile.cancelAtPeriodEnd && (
+              <Button
+                size="sm"
+                disabled={busy}
+                onClick={() => call("/api/stripe/resume", "Subscription resumed.")}
+              >
+                Resume subscription
+              </Button>
+            )}
+            {!isActive && (
+              <Link href="/activate">
+                <Button size="sm">Go Pro</Button>
+              </Link>
+            )}
+            {(isActive || profile.stripeCustomerId) && (
+              <Button variant="outline" size="sm" disabled={busy} onClick={openPortal}>
+                Manage billing
+              </Button>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function DashboardPage() {
   const { stats } = useAppStore();
@@ -97,6 +230,10 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <React.Suspense fallback={null}>
+        <SubscriptionCard />
+      </React.Suspense>
 
       <div className="grid gap-4 sm:grid-cols-3">
         <Link href="/quiz">

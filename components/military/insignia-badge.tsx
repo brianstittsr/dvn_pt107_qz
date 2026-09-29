@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
 
-const variantClasses: Record<"pro" | "admin" | "free" | "neutral", string> = {
+const variantClasses: Record<"pro" | "admin" | "free" | "neutral" | "danger", string> = {
   pro: "border-olive bg-olive/10 text-olive-dark shadow-[inset_0_0_0_1px_var(--olive)]",
   admin: "border-navy bg-navy text-tan-light shadow-[inset_0_0_0_1px_var(--tan-light)]",
   free: "border-tan bg-surface-2 text-olive-dark shadow-[inset_0_0_0_1px_var(--tan)]",
   neutral:
     "border-surface-2 bg-surface-2 text-olive-dark shadow-[inset_0_0_0_1px_var(--olive-dark)]",
+  danger: "border-danger bg-danger/10 text-danger shadow-[inset_0_0_0_1px_var(--danger)]",
 };
 
 export function InsigniaBadge({
@@ -13,7 +14,7 @@ export function InsigniaBadge({
   children,
   className,
 }: {
-  variant: "pro" | "admin" | "free" | "neutral";
+  variant: "pro" | "admin" | "free" | "neutral" | "danger";
   children: React.ReactNode;
   className?: string;
 }) {

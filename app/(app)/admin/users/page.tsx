@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InsigniaBadge } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
+import { apiFetch } from "@/lib/api-client";
 
 interface UserRecord {
   uid: string;
@@ -30,12 +31,8 @@ export default function AdminUsersPage() {
       router.replace("/admin");
       return;
     }
-    fetch("/api/admin/users")
-      .then(async (res) => {
-        const json = (await res.json()) as { data?: UserRecord[]; error?: string };
-        if (!res.ok) throw new Error(json.error ?? "Failed to load users");
-        setUsers(json.data ?? []);
-      })
+    apiFetch<UserRecord[]>("/api/admin/users")
+      .then((data) => setUsers(data))
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : "Unknown error");
       })

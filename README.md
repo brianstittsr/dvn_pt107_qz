@@ -34,6 +34,27 @@ A Next.js study app for the FAA Part 107 Remote Pilot certification.
    ```
 4. Open [http://localhost:3000](http://localhost:3000).
 
+## Stripe setup
+
+Create three Prices in the Stripe Dashboard:
+
+- **Monthly** — recurring, $97/mo → `STRIPE_PRICE_MONTHLY`
+- **6-Month Mission** — one-time, $497 → `STRIPE_PRICE_6MO`
+- **12-Month Deployment** — one-time, $897 → `STRIPE_PRICE_12MO`
+
+The discounted plans are one-time prepaid access because Stripe's BNPL methods
+(Klarna, Affirm, Afterpay) only support one-time payments.
+
+Then:
+
+- Enable **Klarna, Affirm, and Afterpay** under Settings → Payment methods (Stripe will
+  offer them automatically on one-time checkout sessions).
+- Configure the **Customer Portal** (Settings → Billing → Customer portal) so "Manage
+  billing" works.
+- Point a webhook at `/api/stripe/webhook` with these events:
+  `checkout.session.completed`, `invoice.paid`, `invoice.payment_failed`,
+  `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`.
+
 ## Important
 
 This is a study aid, not a substitute for the current FAA regulations, Remote Pilot Study Guide,

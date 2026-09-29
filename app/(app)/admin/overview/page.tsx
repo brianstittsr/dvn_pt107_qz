@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HudCard } from "@/components/military";
 import { useAuth } from "@/components/auth-provider";
+import { apiFetch } from "@/lib/api-client";
 
 interface OverviewStats {
   totalUsers: number;
   activeSubscriptions: number;
   totalQuizSessions: number;
   freeUsers: number;
+  revenueCents: number;
+  pastDueUsers: number;
 }
 
 export default function AdminOverviewPage() {
@@ -28,12 +31,8 @@ export default function AdminOverviewPage() {
       router.replace("/admin");
       return;
     }
-    fetch("/api/admin/overview")
-      .then(async (res) => {
-        const json = (await res.json()) as { data?: OverviewStats; error?: string };
-        if (!res.ok) throw new Error(json.error ?? "Failed to load overview");
-        setStats(json.data ?? null);
-      })
+    apiFetch<OverviewStats>("/api/admin/overview")
+      .then((data) => setStats(data))
       .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : "Unknown error");
       })
@@ -67,6 +66,12 @@ export default function AdminOverviewPage() {
     { label: "Active subscriptions", value: stats.activeSubscriptions, icon: BarChart3 },
     { label: "Free-tier users", value: stats.freeUsers, icon: Users },
     { label: "Quiz sessions completed", value: stats.totalQuizSessions, icon: BarChart3 },
+    {
+      label: "Revenue",
+      value: `$${(stats.revenueCents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      icon: BarChart3,
+    },
+    { label: "Past due", value: stats.pastDueUsers, icon: Users },
   ];
 
   return (

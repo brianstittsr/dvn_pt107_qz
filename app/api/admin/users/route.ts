@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb } from "@/lib/firebase-admin";
+import { handleApiError, requireAdmin } from "@/lib/auth-server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    await requireAdmin(request);
     const db = getAdminDb();
     const snapshot = await db.collection("users").orderBy("createdAt", "desc").limit(100).get();
 
@@ -21,8 +23,7 @@ export async function GET() {
     });
 
     return NextResponse.json({ data: users }, { status: 200 });
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Failed to fetch users";
-    return NextResponse.json({ error: message, status: 500 }, { status: 500 });
+  } catch (err: unknown) {
+    return handleApiError(err);
   }
 }

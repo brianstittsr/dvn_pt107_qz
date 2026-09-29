@@ -1,3 +1,5 @@
+import type { PlanId } from "@/lib/plans";
+
 export interface Category {
   id: string;
   name: string;
@@ -49,6 +51,35 @@ export interface UserStats {
   byCategory: Record<string, { answered: number; correct: number }>;
 }
 
+export interface StudentRegistration {
+  fullName: string;
+  email: string;
+  phone: string;
+  city: string;
+  state: string;
+  experience: "none" | "hobbyist" | "some_commercial" | "military" | "professional";
+  targetExamDate: string | null;
+  referralSource: "search" | "social" | "friend" | "military_unit" | "employer" | "other";
+  createdAt: string;
+}
+
+export interface PaymentRecord {
+  id: string;
+  userId: string;
+  email: string | null;
+  planId: PlanId | null;
+  amountCents: number;
+  currency: string;
+  status: "succeeded" | "failed" | "refunded" | "pending";
+  kind: "one_time" | "subscription_invoice";
+  stripeCheckoutSessionId: string | null;
+  stripePaymentIntentId: string | null;
+  stripeInvoiceId: string | null;
+  stripeSubscriptionId: string | null;
+  paymentMethodType: string | null;
+  createdAt: string;
+}
+
 export interface UserProfile {
   uid: string;
   email: string | null;
@@ -59,4 +90,7 @@ export interface UserProfile {
   subscriptionExpiry: string | null;
   stripeCustomerId: string | null;
   stripeSubscriptionId: string | null;
+  planId: PlanId | null;
+  cancelAtPeriodEnd: boolean;
+  registration: StudentRegistration | null;
 }
