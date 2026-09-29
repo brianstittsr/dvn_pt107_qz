@@ -21,7 +21,7 @@ export function Nav() {
   const { user, profile, signOut } = useAuth();
 
   return (
-    <aside className="relative flex h-screen w-64 flex-col overflow-hidden border-r border-navy bg-navy p-5 text-tan-light/80">
+    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col overflow-hidden border-r border-navy bg-navy p-5 text-tan-light/80">
       <div className="pointer-events-none absolute inset-0 camo-pattern" aria-hidden="true" />
       <div className="relative flex h-full flex-col">
         <Link href="/" className="mb-8 flex items-center gap-3 px-2 text-tan-light">

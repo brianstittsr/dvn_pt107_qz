@@ -69,7 +69,7 @@ const careers = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="bg-background text-foreground">
       {/* Hero */}
       <section className="relative overflow-hidden bg-navy">
         <div className="pointer-events-none absolute inset-0 camo-pattern" aria-hidden="true" />
