@@ -1,5 +1,6 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { DemoBanner } from "@/components/demo-banner";
+import { RequireAuth } from "@/components/require-auth";
 import { Nav } from "@/components/nav";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -15,7 +16,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="flex min-h-screen flex-1 flex-col">
             <DemoBanner />
             <SiteHeader variant="compact" />
-            <main className="flex-1 overflow-auto p-8">{children}</main>
+            <main className="flex-1 overflow-auto p-8">
+              <RequireAuth>{children}</RequireAuth>
+            </main>
             <SiteFooter />
           </div>
         </div>
