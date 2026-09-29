@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CheckCircle, Crosshair, Radio, Shield, Target, Trophy } from "lucide-react";
+import { CheckCircle, Crosshair, Radio, Shield, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DroneBadge, Propeller } from "@/components/drone-art";
 import { questions } from "@/lib/data";
 
 const sampleQuestions = questions.slice(0, 3);
@@ -39,45 +40,52 @@ const careers = [
     title: "Military UAS Operator",
     description:
       "Plan, launch, and recover unmanned systems in support of reconnaissance, surveillance, and tactical operations.",
-    image: "https://images.unsplash.com/photo-1540226130473-62fd8269b3fa?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://image.pollinations.ai/prompt/soldier%20operating%20military%20drone%20control%20station%20dark%20tactical%20environment%20olive%20drab%20camera%20gimbal%20and%20rotor%20propellers%20visible%20cinematic?width=800&height=600&seed=201&nologo=true",
   },
   {
     title: "Commercial Remote Pilot",
     description:
       "Fly drones for cinematography, inspection, mapping, agriculture, and logistics under Part 107.",
-    image: "https://images.unsplash.com/photo-1633319590728-ee88a63977c1?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://image.pollinations.ai/prompt/commercial%20drone%20with%20camera%20and%20propellers%20flying%20over%20green%20farmland%20dark%20military%20theme%20overlay%20cinematic?width=800&height=600&seed=202&nologo=true",
   },
   {
     title: "Public Safety Drone Pilot",
     description:
       "Support law enforcement, fire, and search-and-rescue teams with aerial situational awareness.",
-    image: "https://images.unsplash.com/photo-1643695768155-47bf0616d866?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://image.pollinations.ai/prompt/search%20and%20rescue%20drone%20with%20thermal%20camera%20and%20propellers%20hovering%20above%20emergency%20scene%20at%20night%20dark%20olive%20and%20black%20cinematic?width=800&height=600&seed=203&nologo=true",
   },
   {
     title: "Drone Maintenance Technician",
     description:
       "Keep airframes, sensors, and control stations mission-ready with inspections and preventive maintenance.",
-    image: "https://images.unsplash.com/photo-1774553988130-ccda57774818?auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://image.pollinations.ai/prompt/technician%20hands%20repairing%20a%20drone%20propeller%20and%20camera%20gimbal%20on%20a%20workbench%20dark%20olive%20military%20workshop%20cinematic?width=800&height=600&seed=204&nologo=true",
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="-m-8 min-h-screen bg-slate-950 text-slate-100">
+    <div className="-m-8 min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-olive/30 via-slate-950 to-slate-950" />
+      <section className="relative overflow-hidden border-b border-olive-dark/40">
+        <div className="absolute inset-0 camo-bg" />
+        <div className="pointer-events-none absolute -right-20 -top-20 opacity-10">
+          <Propeller className="h-96 w-96" />
+        </div>
         <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-olive-light/40 bg-olive/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-tan-light">
+              <div className="inline-flex items-center gap-2 rounded-full border border-olive/40 bg-olive-dark/30 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-tan-light">
                 <Target className="h-3.5 w-3.5" />
                 FAA Part 107 Certification Prep
               </div>
               <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
                 Train like a drone operator. <span className="text-tan">Pass the exam.</span>
               </h1>
-              <p className="max-w-lg text-lg text-slate-400">
+              <p className="max-w-lg text-lg text-tan-light/80">
                 Tactical quiz drills, vocabulary flashcards, and progress tracking built for aspiring
                 military and commercial UAS professionals.
               </p>
@@ -91,25 +99,26 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-slate-600 text-slate-200 hover:bg-slate-900"
+                    className="border-tan/40 text-tan-light hover:bg-olive-dark/30 hover:text-tan"
                   >
-                    Enter admin panel
+                    Enter command center
                   </Button>
                 </Link>
               </div>
             </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-slate-700 shadow-2xl">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-olive-dark/60 shadow-2xl shadow-black/50">
               <Image
-                src="https://images.unsplash.com/photo-1485464612313-85b4a3b32e94?auto=format&fit=crop&w=1200&q=80"
-                alt="Remote pilot controlling a small UAS during a tactical exercise"
+                src="https://image.pollinations.ai/prompt/military%20drone%20operator%20with%20tactical%20headset%20operating%20a%20UAS%20in%20a%20dark%20command%20center%20olive%20green%20and%20black%20dramatic%20lighting%20focus%20on%20camera%20and%20propellers%20cinematic?width=1200&height=600&seed=101&nologo=true"
+                alt="AI-generated military drone operator at a tactical UAS control station"
                 fill
                 className="object-cover"
                 priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent p-6">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
                 <p className="text-sm font-medium text-tan">Tactical UAS Operations</p>
-                <p className="text-xs text-slate-300">Remote Pilot Certification Path</p>
+                <p className="text-xs text-tan-light/70">Remote Pilot Certification Path</p>
               </div>
             </div>
           </div>
@@ -119,12 +128,12 @@ export default function HomePage() {
       {/* Sample questions */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">Sample mission questions</h2>
-          <p className="mt-2 text-slate-400">The kind of scenarios you will face on test day.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-tan-light">Sample mission questions</h2>
+          <p className="mt-2 text-tan-light/60">The kind of scenarios you will face on test day.</p>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {sampleQuestions.map((q) => (
-            <Card key={q.id} className="border-slate-800 bg-slate-900/50 text-slate-100">
+            <Card key={q.id} className="border-olive-dark/40 bg-card text-foreground">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-semibold leading-snug">{q.question}</CardTitle>
               </CardHeader>
@@ -134,14 +143,14 @@ export default function HomePage() {
                     key={i}
                     className={`rounded-md border px-3 py-2 text-sm ${
                       i === q.correctIndex
-                        ? "border-olive/60 bg-olive/20 text-tan-light"
-                        : "border-slate-700 bg-slate-800/50 text-slate-400"
+                        ? "border-olive/60 bg-olive-dark/30 text-tan-light"
+                        : "border-olive-dark/40 bg-card-2 text-tan-light/60"
                     }`}
                   >
                     {String.fromCharCode(65 + i)}. {answer}
                   </div>
                 ))}
-                <p className="pt-2 text-xs text-slate-500">
+                <p className="pt-2 text-xs text-tan-light/40">
                   Correct: {String.fromCharCode(65 + q.correctIndex)}
                 </p>
               </CardContent>
@@ -156,29 +165,29 @@ export default function HomePage() {
       </section>
 
       {/* Marketing reasons */}
-      <section className="border-y border-slate-800 bg-slate-900/30">
+      <section className="border-y border-olive-dark/40 bg-card/30">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl font-bold tracking-tight">Why upgrade to Pro?</h2>
-            <p className="mt-2 text-slate-400">Free training gets you started. Pro gets you certified.</p>
+            <h2 className="text-3xl font-bold tracking-tight text-tan-light">Why upgrade to Pro?</h2>
+            <p className="mt-2 text-tan-light/60">Free training gets you started. Pro gets you certified.</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {marketingReasons.map((reason) => {
               const Icon = reason.icon;
               return (
-                <Card key={reason.title} className="border-slate-800 bg-slate-950 text-slate-100">
+                <Card key={reason.title} className="border-olive-dark/40 bg-card text-foreground">
                   <CardHeader className="space-y-3">
                     <Icon className="h-8 w-8 text-tan" />
                     <CardTitle className="text-lg">{reason.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-slate-400">{reason.description}</p>
+                    <p className="text-sm text-tan-light/70">{reason.description}</p>
                   </CardContent>
                 </Card>
               );
             })}
           </div>
-          <ul className="mx-auto mt-10 grid max-w-3xl gap-3 text-sm text-slate-300 sm:grid-cols-2">
+          <ul className="mx-auto mt-10 grid max-w-3xl gap-3 text-sm text-tan-light/80 sm:grid-cols-2">
             {[
               "Unlimited cloud sync across devices",
               "Full quiz history and performance trends",
@@ -206,16 +215,23 @@ export default function HomePage() {
       {/* Drone careers */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">Drone careers unlocked by Part 107</h2>
-          <p className="mt-2 text-slate-400">Your certification is the launch point for high-demand UAS roles.</p>
+          <h2 className="text-3xl font-bold tracking-tight text-tan-light">
+            Drone careers unlocked by Part 107
+          </h2>
+          <p className="mt-2 text-tan-light/60">
+            Your certification is the launch point for high-demand UAS roles.
+          </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {careers.map((career) => (
-            <Card key={career.title} className="overflow-hidden border-slate-800 bg-slate-900/50 text-slate-100">
+            <Card
+              key={career.title}
+              className="overflow-hidden border-olive-dark/40 bg-card text-foreground"
+            >
               <div className="relative aspect-[3/2]">
                 <Image
                   src={career.image}
-                  alt={career.title}
+                  alt={`AI-generated image for ${career.title}`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -223,7 +239,7 @@ export default function HomePage() {
               </div>
               <CardContent className="space-y-2 p-5">
                 <h3 className="font-semibold text-tan">{career.title}</h3>
-                <p className="text-sm text-slate-400">{career.description}</p>
+                <p className="text-sm text-tan-light/70">{career.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -231,11 +247,15 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="border-t border-slate-800 bg-olive/10">
+      <section className="border-t border-olive-dark/40 bg-olive-dark/10">
         <div className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <Trophy className="mx-auto h-10 w-10 text-tan" />
-          <h2 className="mt-4 text-3xl font-bold tracking-tight">Mission-ready in weeks, not months</h2>
-          <p className="mx-auto mt-3 max-w-xl text-slate-400">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-olive/40 bg-olive-dark/30">
+            <DroneBadge />
+          </div>
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-tan-light">
+            Mission-ready in weeks, not months
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-tan-light/70">
             Join operators, inspectors, and public-safety pilots who use Part 107 Flight School to pass
             the Remote Pilot exam and advance their UAS careers.
           </p>
@@ -249,7 +269,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-slate-600 text-slate-200 hover:bg-slate-900"
+                className="border-tan/40 text-tan-light hover:bg-olive-dark/30 hover:text-tan"
               >
                 Go Pro now
               </Button>

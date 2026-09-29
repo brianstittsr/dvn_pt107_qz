@@ -29,25 +29,25 @@ export default function VocabPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Vocabulary Deck</h1>
-          <p className="text-slate-500">Flip cards and mark terms as mastered.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-tan-light">Vocabulary Deck</h1>
+          <p className="text-tan-light/60">Flip cards and mark terms as mastered.</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border border-slate-200 bg-white p-1">
+          <div className="flex rounded-lg border border-olive-dark/40 bg-card p-1">
             {(["all", "unknown", "known"] as Filter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={cn(
                   "rounded-md px-3 py-1.5 text-sm font-medium capitalize transition-colors",
-                  filter === f ? "bg-navy text-white" : "text-slate-600 hover:bg-slate-50"
+                  filter === f ? "bg-olive text-white" : "text-tan-light/70 hover:bg-olive-dark/20 hover:text-tan-light"
                 )}
               >
                 {f}
               </button>
             ))}
           </div>
-          <Button variant="outline" size="sm" onClick={shuffleTerms}>
+          <Button variant="outline" size="sm" onClick={shuffleTerms} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
             <Shuffle className="mr-1 h-4 w-4" />
             Shuffle
           </Button>
@@ -55,8 +55,8 @@ export default function VocabPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-slate-500">
+        <Card className="border-olive-dark/40 bg-card text-foreground">
+          <CardContent className="py-12 text-center text-tan-light/60">
             No cards here yet. Try another filter.
           </CardContent>
         </Card>
@@ -68,24 +68,27 @@ export default function VocabPage() {
               <Card
                 key={v.id}
                 onClick={() => setFlipped((prev) => ({ ...prev, [v.id]: !prev[v.id] }))}
-                className="cursor-pointer transition-shadow hover:shadow-md"
+                className="cursor-pointer border-olive-dark/40 bg-card text-foreground transition-shadow hover:shadow-lg hover:shadow-olive-dark/20"
               >
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-start justify-between">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-olive">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-olive-light">
                       {categories.find((c) => c.id === v.categoryId)?.name ?? v.categoryId}
                     </span>
-                    <span className="text-xs text-slate-400">Click to flip</span>
+                    <span className="text-xs text-tan-light/40">Click to flip</span>
                   </div>
                   <div
-                    className={cn("min-h-[80px]", flipped[v.id] ? "text-slate-700" : "text-xl font-semibold")}
+                    className={cn(
+                      "min-h-[80px] text-tan-light",
+                      flipped[v.id] ? "text-tan-light/80" : "text-xl font-semibold text-tan-light"
+                    )}
                   >
                     {flipped[v.id] ? v.definition : v.term}
                   </div>
                   <Button
                     variant={known ? "outline" : "default"}
                     size="sm"
-                    className={known ? "" : "bg-olive text-white hover:bg-olive-light"}
+                    className={known ? "border-olive-dark/40 bg-card-2 text-tan-light hover:bg-olive-dark/20" : "bg-olive text-white hover:bg-olive-light"}
                     onClick={(e) => {
                       e.stopPropagation();
                       markVocabKnown(v.id, !known);

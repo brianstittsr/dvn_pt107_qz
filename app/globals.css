@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f3f4f6;
-  --foreground: #101827;
-  --navy: #0b1221;
-  --navy-2: #132036;
-  --olive: #4a5d23;
-  --olive-light: #657a35;
-  --tan: #c2b280;
-  --tan-light: #d9cd9e;
+  --background: #0a0c09;
+  --foreground: #e8e6e1;
+  --navy: #0b0f0a;
+  --navy-2: #141a12;
+  --olive: #556b2f;
+  --olive-light: #6b8e3b;
+  --olive-dark: #3a4a1f;
+  --tan: #b8a87a;
+  --tan-light: #d4c8a3;
   --danger: #c2410c;
-  --cyan: #25d0b4;
+  --cyan: #7dd3c0;
   --camo-1: #3f4a2d;
   --camo-2: #5c5c3d;
   --camo-3: #8b7d52;
+  --card: #11140f;
+  --card-2: #181c15;
 }
 
 @theme inline {
@@ -23,10 +26,13 @@
   --color-navy-2: var(--navy-2);
   --color-olive: var(--olive);
   --color-olive-light: var(--olive-light);
+  --color-olive-dark: var(--olive-dark);
   --color-tan: var(--tan);
   --color-tan-light: var(--tan-light);
   --color-danger: var(--danger);
   --color-cyan: var(--cyan);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -34,4 +40,20 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+.camo-bg {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(85, 107, 47, 0.15) 0%, transparent 25%),
+    radial-gradient(circle at 80% 70%, rgba(139, 125, 82, 0.12) 0%, transparent 25%),
+    linear-gradient(135deg, #0a0c09 0%, #10130e 100%);
+}
+
+.propeller-spin {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

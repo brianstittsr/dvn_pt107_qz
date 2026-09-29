@@ -51,32 +51,32 @@ export default function ActivatePage() {
   return (
     <div className="mx-auto max-w-3xl space-y-8 py-12 text-center">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Go Pro</h1>
-        <p className="mt-3 text-lg text-slate-600">
+        <h1 className="text-4xl font-bold tracking-tight text-tan-light">Go Pro</h1>
+        <p className="mt-3 text-lg text-tan-light/70">
           Support the mission and unlock powerful study tools.
         </p>
       </div>
 
-      <Card className="mx-auto max-w-md text-left">
+      <Card className="mx-auto max-w-md border-olive-dark/40 bg-card text-left text-foreground">
         <CardHeader>
-          <CardTitle className="text-2xl">Part 107 Pro</CardTitle>
-          <p className="text-sm text-slate-500">Subscription · cancel anytime</p>
+          <CardTitle className="text-2xl text-tan-light">Part 107 Pro</CardTitle>
+          <p className="text-sm text-tan-light/60">Subscription · cancel anytime</p>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="text-4xl font-bold">
-            $9<span className="text-lg font-normal text-slate-500">/mo</span>
+          <div className="text-4xl font-bold text-tan-light">
+            $9<span className="text-lg font-normal text-tan-light/60">/mo</span>
           </div>
           <ul className="space-y-3">
             {features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-sm text-slate-700">
-                <Check className="mt-0.5 h-4 w-4 text-olive" />
+              <li key={feature} className="flex items-start gap-2 text-sm text-tan-light/80">
+                <Check className="mt-0.5 h-4 w-4 text-olive-light" />
                 {feature}
               </li>
             ))}
           </ul>
 
           {isActive ? (
-            <div className="rounded-lg bg-olive/10 p-4 text-center text-sm font-medium text-olive">
+            <div className="rounded-lg bg-olive-dark/20 p-4 text-center text-sm font-medium text-olive-light">
               Your Pro subscription is active.
             </div>
           ) : (
@@ -89,8 +89,8 @@ export default function ActivatePage() {
                 {loading ? "Loading…" : "Activate Pro"}
               </Button>
               {!user && (
-                <p className="text-center text-sm text-slate-500">
-                  <Link href="/login" className="text-olive hover:underline">
+                <p className="text-center text-sm text-tan-light/60">
+                  <Link href="/login" className="text-olive-light hover:underline">
                     Sign in
                   </Link>{" "}
                   first to continue.

@@ -41,7 +41,7 @@ export default function AdminOverviewPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="flex h-full items-center justify-center gap-2 text-slate-500">
+      <div className="flex h-full items-center justify-center gap-2 text-tan-light/60">
         <Loader2 className="h-5 w-5 animate-spin" />
         Loading platform metrics…
       </div>
@@ -51,11 +51,11 @@ export default function AdminOverviewPage() {
   if (error || !stats) {
     return (
       <div className="space-y-4">
-        <Button variant="outline" size="sm" onClick={() => router.back()}>
+        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="py-6 text-red-700">{error ?? "No data available"}</CardContent>
+        <Card className="border-red-900/30 bg-red-950/10 text-foreground">
+          <CardContent className="py-6 text-red-400">{error ?? "No data available"}</CardContent>
         </Card>
       </div>
     );
@@ -71,25 +71,25 @@ export default function AdminOverviewPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="outline" size="sm" onClick={() => router.back()}>
+        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <h1 className="text-2xl font-bold tracking-tight">Platform Overview</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-tan-light">Platform Overview</h1>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {metrics.map((metric) => {
           const Icon = metric.icon;
           return (
-            <Card key={metric.label}>
+            <Card key={metric.label} className="border-olive-dark/40 bg-card text-foreground">
               <CardHeader className="pb-2">
-                <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-slate-500">
+                <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-tan-light/60">
                   <Icon className="h-4 w-4" />
                   {metric.label}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">{metric.value}</div>
+                <div className="text-3xl font-bold text-tan-light">{metric.value}</div>
               </CardContent>
             </Card>
           );

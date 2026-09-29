@@ -43,7 +43,7 @@ export default function AdminUsersPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="flex h-full items-center justify-center gap-2 text-slate-500">
+      <div className="flex h-full items-center justify-center gap-2 text-tan-light/60">
         <Loader2 className="h-5 w-5 animate-spin" />
         Loading user roster…
       </div>
@@ -53,11 +53,11 @@ export default function AdminUsersPage() {
   if (error) {
     return (
       <div className="space-y-4">
-        <Button variant="outline" size="sm" onClick={() => router.back()}>
+        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="py-6 text-red-700">{error}</CardContent>
+        <Card className="border-red-900/30 bg-red-950/10 text-foreground">
+          <CardContent className="py-6 text-red-400">{error}</CardContent>
         </Card>
       </div>
     );
@@ -66,16 +66,16 @@ export default function AdminUsersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="outline" size="sm" onClick={() => router.back()}>
+        <Button variant="outline" size="sm" onClick={() => router.back()} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
           <ArrowLeft className="mr-1.5 h-4 w-4" /> Back
         </Button>
-        <h1 className="text-2xl font-bold tracking-tight">User Roster</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-tan-light">User Roster</h1>
       </div>
 
-      <Card>
+      <Card className="border-olive-dark/40 bg-card text-foreground">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5 text-olive" />
+          <CardTitle className="flex items-center gap-2 text-tan-light">
+            <Users className="h-5 w-5 text-olive-light" />
             Registered users ({users.length})
           </CardTitle>
         </CardHeader>
@@ -83,7 +83,7 @@ export default function AdminUsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-200 text-left text-slate-500">
+                <tr className="border-b border-olive-dark/40 text-left text-tan-light/60">
                   <th className="pb-2 pr-4 font-medium">Name</th>
                   <th className="pb-2 pr-4 font-medium">Email</th>
                   <th className="pb-2 pr-4 font-medium">Role</th>
@@ -93,17 +93,15 @@ export default function AdminUsersPage() {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.uid} className="border-b border-slate-100 last:border-0">
-                    <td className="py-3 pr-4 font-medium text-slate-800">
-                      {user.displayName || "—"}
-                    </td>
-                    <td className="py-3 pr-4 text-slate-600">{user.email || "—"}</td>
+                  <tr key={user.uid} className="border-b border-olive-dark/20 text-tan-light last:border-0">
+                    <td className="py-3 pr-4 font-medium">{user.displayName || "—"}</td>
+                    <td className="py-3 pr-4 text-tan-light/70">{user.email || "—"}</td>
                     <td className="py-3 pr-4">
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                           user.role === "admin"
-                            ? "bg-olive/10 text-olive"
-                            : "bg-slate-100 text-slate-600"
+                            ? "bg-olive-dark/20 text-olive-light"
+                            : "bg-card-2 text-tan-light/60"
                         }`}
                       >
                         {user.role}
@@ -113,14 +111,14 @@ export default function AdminUsersPage() {
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                           user.subscriptionStatus === "active"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-slate-100 text-slate-600"
+                            ? "bg-olive-dark/20 text-olive-light"
+                            : "bg-card-2 text-tan-light/60"
                         }`}
                       >
                         {user.subscriptionStatus}
                       </span>
                     </td>
-                    <td className="py-3 text-slate-500">
+                    <td className="py-3 text-tan-light/50">
                       {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}
                     </td>
                   </tr>

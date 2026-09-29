@@ -53,17 +53,21 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md border-olive-dark/40 bg-card text-foreground">
         <CardHeader className="space-y-1">
-          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-olive/10 text-olive">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-olive-dark/30 text-olive-light">
             <Shield className="h-5 w-5" />
           </div>
-          <CardTitle className="text-center">{mode === "signin" ? "Sign in" : "Create account"}</CardTitle>
+          <CardTitle className="text-center text-tan-light">
+            {mode === "signin" ? "Sign in" : "Create account"}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <form onSubmit={handleEmail} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-tan-light">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -71,10 +75,13 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
+                className="border-olive-dark/40 bg-card-2 text-foreground placeholder:text-tan-light/40"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-tan-light">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -82,6 +89,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
+                className="border-olive-dark/40 bg-card-2 text-foreground placeholder:text-tan-light/40"
               />
             </div>
             <Button
@@ -95,29 +103,29 @@ export default function LoginPage() {
 
           <div className="relative py-2">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
+              <div className="w-full border-t border-olive-dark/40" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-slate-500">Or</span>
+              <span className="bg-card px-2 text-tan-light/60">Or</span>
             </div>
           </div>
 
-          <Button variant="outline" onClick={handleGoogle} className="w-full">
+          <Button variant="outline" onClick={handleGoogle} className="w-full border-olive-dark/40 text-tan-light hover:bg-card-2">
             Continue with Google
           </Button>
 
-          <p className="text-center text-sm text-slate-500">
+          <p className="text-center text-sm text-tan-light/60">
             {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-              className="font-medium text-olive hover:underline"
+              className="font-medium text-olive-light hover:underline"
             >
               {mode === "signin" ? "Sign up" : "Sign in"}
             </button>
           </p>
 
-          <Link href="/" className="block text-center text-sm text-slate-500 hover:text-slate-800">
+          <Link href="/" className="block text-center text-sm text-tan-light/60 hover:text-tan-light">
             ← Back to home
           </Link>
         </CardContent>

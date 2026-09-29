@@ -49,7 +49,7 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="flex h-full items-center justify-center text-slate-500">Loading mission data…</div>
+      <div className="flex h-full items-center justify-center text-tan-light/60">Loading mission data…</div>
     );
   }
 
@@ -57,24 +57,26 @@ export default function AdminPage() {
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Command Center</h1>
-          <p className="text-slate-500">Track readiness, identify gaps, and manage your study mission.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-tan-light">Command Center</h1>
+          <p className="text-tan-light/60">Track readiness, identify gaps, and manage your study mission.</p>
         </div>
         {user ? (
-          <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm">
-            <User className="h-4 w-4 text-slate-400" />
-            <span className="text-slate-700">{user.displayName || user.email}</span>
+          <div className="flex items-center gap-3 rounded-lg border border-olive-dark/40 bg-card px-4 py-2 text-sm text-tan-light">
+            <User className="h-4 w-4 text-tan-light/60" />
+            <span className="text-tan-light">{user.displayName || user.email}</span>
             <span
               className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                 profile?.subscriptionStatus === "active"
-                  ? "bg-emerald-100 text-emerald-700"
-                  : "bg-slate-100 text-slate-600"
+                  ? "bg-olive-dark/30 text-olive-light"
+                  : "bg-card-2 text-tan-light/60"
               }`}
             >
               {profile?.subscriptionStatus === "active" ? "Pro active" : "Free tier"}
             </span>
             {profile?.role === "admin" && (
-              <span className="rounded-full bg-olive/10 px-2 py-0.5 text-xs font-medium text-olive">Admin</span>
+              <span className="rounded-full bg-olive-dark/20 px-2 py-0.5 text-xs font-medium text-olive-light">
+                Admin
+              </span>
             )}
           </div>
         ) : (
@@ -86,15 +88,15 @@ export default function AdminPage() {
 
       {profile?.role === "admin" && (
         <div className="grid gap-4 sm:grid-cols-2">
-          <Card className="border-olive/20 bg-olive/5">
+          <Card className="border-olive-dark/40 bg-card text-foreground">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-olive">
-                <Users className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-tan-light">
+                <Users className="h-5 w-5 text-olive-light" />
                 User management
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-slate-600">View registered users, roles, and subscription status.</p>
+              <p className="text-sm text-tan-light/70">View registered users, roles, and subscription status.</p>
               <Button
                 className="mt-4 bg-olive text-white hover:bg-olive-light"
                 size="sm"
@@ -104,15 +106,15 @@ export default function AdminPage() {
               </Button>
             </CardContent>
           </Card>
-          <Card className="border-olive/20 bg-olive/5">
+          <Card className="border-olive-dark/40 bg-card text-foreground">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-olive">
-                <BarChart3 className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-tan-light">
+                <BarChart3 className="h-5 w-5 text-olive-light" />
                 Site overview
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-slate-600">Platform-wide activity, subscription, and quiz metrics.</p>
+              <p className="text-sm text-tan-light/70">Platform-wide activity, subscription, and quiz metrics.</p>
               <Button
                 className="mt-4 bg-olive text-white hover:bg-olive-light"
                 size="sm"
@@ -127,64 +129,41 @@ export default function AdminPage() {
 
       {/* KPI cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-slate-500">
-              <BookOpen className="h-4 w-4" />
-              Questions answered
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{totalAnswered}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-slate-500">
-              <Target className="h-4 w-4" />
-              Accuracy
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{totalAnswered ? `${accuracy}%` : "—"}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-slate-500">
-              <Flame className="h-4 w-4" />
-              Study streak
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{stats.streak} days</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-slate-500">
-              <Trophy className="h-4 w-4" />
-              Readiness
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-olive">{readiness}%</div>
-          </CardContent>
-        </Card>
+        {[
+          { label: "Questions answered", icon: BookOpen, value: totalAnswered },
+          { label: "Accuracy", icon: Target, value: totalAnswered ? `${accuracy}%` : "—" },
+          { label: "Study streak", icon: Flame, value: `${stats.streak} days` },
+          { label: "Readiness", icon: Trophy, value: `${readiness}%`, valueClass: "text-olive-light" },
+        ].map((metric) => {
+          const Icon = metric.icon;
+          return (
+            <Card key={metric.label} className="border-olive-dark/40 bg-card text-foreground">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-xs font-medium uppercase text-tan-light/60">
+                  <Icon className="h-4 w-4" />
+                  {metric.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className={`text-3xl font-bold ${metric.valueClass ?? "text-tan-light"}`}>{metric.value}</div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Focus areas */}
-        <Card className="border-red-100 bg-red-50/50 lg:col-span-2">
+        <Card className="border-red-900/30 bg-red-950/10 lg:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-red-700">
+            <CardTitle className="flex items-center gap-2 text-red-400">
               <AlertTriangle className="h-5 w-5" />
               Priority focus areas
             </CardTitle>
           </CardHeader>
           <CardContent>
             {focusAreas.length === 0 ? (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-tan-light/60">
                 Answer questions in each category to generate focus recommendations.
               </p>
             ) : (
@@ -192,18 +171,18 @@ export default function AdminPage() {
                 {focusAreas.map((item) => (
                   <div key={item.category.id} className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium text-slate-800">{item.category.name}</span>
-                      <span className="text-slate-500">
+                      <span className="font-medium text-tan-light">{item.category.name}</span>
+                      <span className="text-tan-light/60">
                         {item.pct}% · {item.correct}/{item.answered}
                       </span>
                     </div>
-                    <div className="h-2 w-full rounded-full bg-slate-200">
+                    <div className="h-2 w-full rounded-full bg-olive-dark/30">
                       <div
                         className="h-2 rounded-full bg-red-500 transition-all"
                         style={{ width: `${item.pct}%` }}
                       />
                     </div>
-                    <p className="text-xs text-slate-500">{item.category.desc}</p>
+                    <p className="text-xs text-tan-light/50">{item.category.desc}</p>
                   </div>
                 ))}
                 <div className="pt-2">
@@ -220,22 +199,22 @@ export default function AdminPage() {
         </Card>
 
         {/* Strong areas */}
-        <Card className="border-emerald-100 bg-emerald-50/30">
+        <Card className="border-olive-dark/40 bg-card text-foreground">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-emerald-700">
+            <CardTitle className="flex items-center gap-2 text-olive-light">
               <Shield className="h-5 w-5" />
               Mission-ready areas
             </CardTitle>
           </CardHeader>
           <CardContent>
             {strongAreas.length === 0 ? (
-              <p className="text-sm text-slate-500">No data yet. Start a quiz to build your profile.</p>
+              <p className="text-sm text-tan-light/60">No data yet. Start a quiz to build your profile.</p>
             ) : (
               <ul className="space-y-3">
                 {strongAreas.map((item) => (
                   <li key={item.category.id} className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-slate-800">{item.category.name}</span>
-                    <span className="font-semibold text-emerald-600">{item.pct}%</span>
+                    <span className="font-medium text-tan-light">{item.category.name}</span>
+                    <span className="font-semibold text-olive-light">{item.pct}%</span>
                   </li>
                 ))}
               </ul>
@@ -245,40 +224,37 @@ export default function AdminPage() {
       </div>
 
       {/* All categories */}
-      <Card>
+      <Card className="border-olive-dark/40 bg-card text-foreground">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-olive" />
+          <CardTitle className="flex items-center gap-2 text-tan-light">
+            <BarChart3 className="h-5 w-5 text-olive-light" />
             Full category breakdown
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categoryStats.map((item) => (
-              <div key={item.category.id} className="rounded-lg border border-slate-200 p-4">
+              <div key={item.category.id} className="rounded-lg border border-olive-dark/40 bg-card-2 p-4">
                 <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium text-slate-700">{item.category.name}</span>
-                  <span className="text-slate-500">{item.answered ? `${item.pct}%` : "—"}</span>
+                  <span className="font-medium text-tan-light">{item.category.name}</span>
+                  <span className="text-tan-light/60">{item.answered ? `${item.pct}%` : "—"}</span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-slate-100">
-                  <div
-                    className="h-2 rounded-full bg-olive transition-all"
-                    style={{ width: `${item.pct}%` }}
-                  />
+                <div className="h-2 w-full rounded-full bg-olive-dark/30">
+                  <div className="h-2 rounded-full bg-olive transition-all" style={{ width: `${item.pct}%` }} />
                 </div>
-                <p className="mt-2 text-xs text-slate-400">{item.category.desc}</p>
+                <p className="mt-2 text-xs text-tan-light/50">{item.category.desc}</p>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-white p-4">
-        <div className="text-sm text-slate-600">
-          <strong>Reset mission data</strong>
-          <p className="text-slate-400">Clears local progress. Signed-in Pro users keep cloud history.</p>
+      <div className="flex items-center justify-between rounded-lg border border-olive-dark/40 bg-card p-4">
+        <div className="text-sm text-tan-light/80">
+          <strong className="text-tan-light">Reset mission data</strong>
+          <p className="text-tan-light/60">Clears local progress. Signed-in Pro users keep cloud history.</p>
         </div>
-        <Button variant="outline" size="sm" onClick={resetStats}>
+        <Button variant="outline" size="sm" onClick={resetStats} className="border-olive-dark/40 text-tan-light hover:bg-card-2">
           <RefreshCcw className="mr-1.5 h-4 w-4" />
           Reset
         </Button>

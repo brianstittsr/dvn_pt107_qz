@@ -64,15 +64,15 @@ export default function QuizPage() {
   if (currentQuiz && finished) {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
-        <Card>
+        <Card className="border-olive-dark/40 bg-card text-foreground">
           <CardHeader>
-            <CardTitle>Mission complete</CardTitle>
+            <CardTitle className="text-tan-light">Mission complete</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-2xl font-bold">
+            <p className="text-2xl font-bold text-tan-light">
               {score} / {currentQuiz.items.length} correct
             </p>
-            <p className="text-slate-500">
+            <p className="text-tan-light/60">
               {score === currentQuiz.items.length
                 ? "Outstanding. You are cleared for the next challenge."
                 : "Review the debrief and run it again."}
@@ -81,7 +81,7 @@ export default function QuizPage() {
               <Button onClick={() => setCurrentQuiz(null)} className="bg-olive text-white hover:bg-olive-light">
                 Back to setup
               </Button>
-              <Button variant="outline" onClick={() => router.push("/dashboard")}>
+              <Button variant="outline" onClick={() => router.push("/dashboard")} className="border-olive-dark/40">
                 Dashboard
               </Button>
             </div>
@@ -95,18 +95,20 @@ export default function QuizPage() {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Quiz Lab</h1>
-          <p className="text-slate-500">Choose a focus area and launch a quiz.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-tan-light">Quiz Lab</h1>
+          <p className="text-tan-light/60">Choose a focus area and launch a quiz.</p>
         </div>
-        <Card>
+        <Card className="border-olive-dark/40 bg-card text-foreground">
           <CardContent className="space-y-6 pt-6">
             <div className="space-y-2">
-              <Label htmlFor="category">Focus area</Label>
+              <Label htmlFor="category" className="text-tan-light">
+                Focus area
+              </Label>
               <select
                 id="category"
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
+                className="w-full rounded-md border border-olive-dark/40 bg-card-2 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="all">Mixed review — all areas</option>
                 {categories.map((c) => (
@@ -117,12 +119,14 @@ export default function QuizPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="length">Questions</Label>
+              <Label htmlFor="length" className="text-tan-light">
+                Questions
+              </Label>
               <select
                 id="length"
                 value={length}
                 onChange={(e) => setLength(e.target.value === "all" ? "all" : Number(e.target.value))}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-olive"
+                className="w-full rounded-md border border-olive-dark/40 bg-card-2 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-olive"
               >
                 <option value="10">10 questions</option>
                 <option value="20">20 questions</option>
@@ -144,20 +148,27 @@ export default function QuizPage() {
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Question {currentQuiz.index + 1}</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-2xl font-bold tracking-tight text-tan-light">
+            Question {currentQuiz.index + 1}
+          </h1>
+          <p className="text-sm text-tan-light/60">
             {currentQuiz.index + 1} of {currentQuiz.items.length} ·{" "}
             {categories.find((c) => c.id === currentQuestion.categoryId)?.name}
           </p>
         </div>
-        <Button variant="ghost" size="sm" onClick={() => setCurrentQuiz(null)}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setCurrentQuiz(null)}
+          className="text-tan-light/60 hover:bg-olive-dark/20 hover:text-tan-light"
+        >
           Exit quiz
         </Button>
       </div>
 
-      <Card>
+      <Card className="border-olive-dark/40 bg-card text-foreground">
         <CardContent className="space-y-6 pt-6">
-          <p className="text-lg font-medium leading-relaxed">{currentQuestion.question}</p>
+          <p className="text-lg font-medium leading-relaxed text-tan-light">{currentQuestion.question}</p>
           <div className="grid gap-3">
             {currentQuestion.answers.map((answer, idx) => {
               const selected = currentItem.selectedIndex === idx;
@@ -169,14 +180,14 @@ export default function QuizPage() {
                   disabled={currentItem.answered}
                   onClick={() => handleAnswer(idx)}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg border p-4 text-left transition-colors",
-                    showResult && isCorrect && "border-olive bg-olive/10",
-                    showResult && selected && !isCorrect && "border-red-400 bg-red-50",
-                    !showResult && "hover:border-olive hover:bg-slate-50",
-                    !showResult && selected && "border-olive bg-olive/10"
+                    "flex items-center gap-3 rounded-lg border p-4 text-left text-tan-light transition-colors",
+                    showResult && isCorrect && "border-olive bg-olive-dark/20",
+                    showResult && selected && !isCorrect && "border-red-400/60 bg-red-400/10",
+                    !showResult && "border-olive-dark/40 bg-card-2 hover:border-olive hover:bg-olive-dark/10",
+                    !showResult && selected && "border-olive bg-olive-dark/20"
                   )}
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-olive-dark/30 text-sm font-semibold text-tan-light">
                     {String.fromCharCode(65 + idx)}
                   </span>
                   <span>{answer}</span>
@@ -186,8 +197,8 @@ export default function QuizPage() {
           </div>
 
           {currentItem.answered && (
-            <div className="rounded-lg bg-slate-50 p-4 text-sm text-slate-700">
-              <strong>Debrief:</strong> {currentQuestion.explanation}
+            <div className="rounded-lg bg-card-2 p-4 text-sm text-tan-light/80">
+              <strong className="text-tan-light">Debrief:</strong> {currentQuestion.explanation}
             </div>
           )}
 
