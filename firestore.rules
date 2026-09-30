@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Billing/subscription fields that must only ever be written by the
+    // Admin SDK (webhook + admin API routes bypass these rules entirely).
+    function billingFieldsLocked() {
+      return !request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny([
+          "subscriptionStatus",
+          "subscriptionExpiry",
+          "stripeCustomerId",
+          "stripeSubscriptionId",
+          "planId",
+          "cancelAtPeriodEnd",
+          "role",
+        ]);
+    }
+
+    match /users/{uid} {
+      // Owner can read their own profile. Server-side admin reads go
+      // through requireAdmin API routes (Admin SDK bypasses rules).
+      allow read: if isOwner(uid);
+
+      // First sign-in creates the profile. Non-negotiable: role locked to
+      // "user" and no billing state may be supplied by the client.
+      allow create: if isOwner(uid)
+        && request.resource.data.role == "user"
+        && request.resource.data.subscriptionStatus == "inactive"
+        && request.resource.data.subscriptionExpiry == null
+        && request.resource.data.stripeCustomerId == null
+        && request.resource.data.stripeSubscriptionId == null
+        && request.resource.data.planId == null
+        && request.resource.data.cancelAtPeriodEnd == false;
+
+      // Owner may update non-billing profile fields only
+      // (displayName, photoURL, registration, etc.).
+      allow update: if isOwner(uid) && billingFieldsLocked();
+
+      // No client deletes.
+      allow delete: if false;
+
+      // Per-student quiz history. The app syncs via /api/sync (Admin SDK),
+      // so client access is read-only and limited to the owner.
+      match /quizSessions/{sessionId} {
+        allow read: if isOwner(uid);
+        allow create: if isOwner(uid)
+          && request.resource.data.userId == uid
+          && request.resource.data.id == sessionId;
+        // Sessions are immutable records; updates/deletes go through the API.
+        allow update, delete: if false;
+      }
+    }
+
+    // Payment ledger is webhook-written. Owner can read their own records.
+    match /payments/{paymentId} {
+      allow read: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

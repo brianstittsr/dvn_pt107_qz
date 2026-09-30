@@ -1,0 +1,5 @@
+{
+  "//": "No composite indexes required — all queries are single-field or collection-group, covered by automatic indexes. See docs/firestore-schema.md.",
+  "indexes": [],
+  "fieldOverrides": []
+}
